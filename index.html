@@ -1,55 +1,89 @@
 <!doctype html>
 <html lang="en-GB">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Currency Exchange | Travel money, made simple</title>
-  <meta name="description" content="Buy and sell foreign currency in person. Friendly service, clear rates and a convenient local branch.">
+  <meta name="description"
+    content="Buy and sell foreign currency in person. Friendly service, clear rates and a convenient local branch.">
   <meta name="theme-color" content="#0f2a1f">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 34' fill='none' stroke-width='4' stroke-linecap='round' stroke-linejoin='miter'%3E%3Cpath d='M3 10h32M27 2l8 8-8 8' stroke='%23a3844f'/%3E%3Cpath d='M37 24H5M13 16l-8 8 8 8' stroke='%23133126'/%3E%3C/svg%3E">
+  <link rel="canonical" href="https://mrchreesa.github.io/currency-exchange/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="Currency Exchange">
+  <meta property="og:title" content="Currency Exchange | Travel money, made simple">
+  <meta property="og:description"
+    content="Buy and sell foreign currency in person. Friendly service, clear rates and a convenient local branch.">
+  <meta property="og:url" content="https://mrchreesa.github.io/currency-exchange/">
+  <meta property="og:image" content="https://mrchreesa.github.io/currency-exchange/assets/img/hero.jpg">
+  <meta property="og:image:width" content="1039">
+  <meta property="og:image:height" content="460">
+  <meta property="og:image:alt" content="Euro, pound and dollar notes beside a passport on a green marble counter">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Currency Exchange | Travel money, made simple">
+  <meta name="twitter:description"
+    content="Buy and sell foreign currency in person. Friendly service, clear rates and a convenient local branch.">
+  <meta name="twitter:image" content="https://mrchreesa.github.io/currency-exchange/assets/img/hero.jpg">
+  <meta name="twitter:image:alt" content="Euro, pound and dollar notes beside a passport on a green marble counter">
+
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 34' fill='none' stroke-width='4' stroke-linecap='round' stroke-linejoin='miter'%3E%3Cpath d='M3 10h32M27 2l8 8-8 8' stroke='%23a3844f'/%3E%3Cpath d='M37 24H5M13 16l-8 8 8 8' stroke='%23133126'/%3E%3C/svg%3E">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&display=swap">
-  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" integrity="sha384-uTttxo/aOKbdE5RlD/SPzSDoDmNvGlUYPjONi2MN/b7c9HPSvW07OIuyP7uL6jxK" crossorigin="anonymous">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css"
+    integrity="sha384-uTttxo/aOKbdE5RlD/SPzSDoDmNvGlUYPjONi2MN/b7c9HPSvW07OIuyP7uL6jxK" crossorigin="anonymous">
   <link rel="stylesheet" href="css/styles.css?v=6">
 </head>
+
 <body>
   <!-- Icon sprite. Logo colours come from --mark-top / --mark-bottom so the header and footer can differ. -->
   <svg class="sprite" aria-hidden="true" focusable="false">
     <symbol id="i-mark" viewBox="0 0 40 34" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="miter">
-      <path d="M3 10h32M27 2l8 8-8 8" stroke="var(--mark-top, #a3844f)"/>
-      <path d="M37 24H5M13 16l-8 8 8 8" stroke="var(--mark-bottom, #133126)"/>
+      <path d="M3 10h32M27 2l8 8-8 8" stroke="var(--mark-top, #a3844f)" />
+      <path d="M37 24H5M13 16l-8 8 8 8" stroke="var(--mark-bottom, #133126)" />
     </symbol>
-    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M3.5 12h16M13.5 5.5 20 12l-6.5 6.5"/>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+      stroke-linejoin="round">
+      <path d="M3.5 12h16M13.5 5.5 20 12l-6.5 6.5" />
     </symbol>
     <symbol id="i-phone" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2Z"/>
+      <path
+        d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2Z" />
     </symbol>
-    <symbol id="i-coins" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <ellipse cx="19.5" cy="5.5" rx="6.5" ry="2.5"/>
-      <path d="M13 5.5v16M26 5.5v16a6.5 2.5 0 0 1-6.5 2.5M13 9.5a6.5 2.5 0 0 0 13 0M13 13.5a6.5 2.5 0 0 0 13 0M13 17.5a6.5 2.5 0 0 0 13 0M13 21.5a6.5 2.5 0 0 0 13 0"/>
-      <path d="M5.5 14.5v12a6.5 2.5 0 0 0 13 0v-12" fill="var(--icon-bg, #fbfaf7)"/>
-      <ellipse cx="12" cy="14.5" rx="6.5" ry="2.5" fill="var(--icon-bg, #fbfaf7)"/>
-      <path d="M5.5 18.5a6.5 2.5 0 0 0 13 0M5.5 22.5a6.5 2.5 0 0 0 13 0"/>
+    <symbol id="i-coins" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+      stroke-linejoin="round">
+      <ellipse cx="19.5" cy="5.5" rx="6.5" ry="2.5" />
+      <path
+        d="M13 5.5v16M26 5.5v16a6.5 2.5 0 0 1-6.5 2.5M13 9.5a6.5 2.5 0 0 0 13 0M13 13.5a6.5 2.5 0 0 0 13 0M13 17.5a6.5 2.5 0 0 0 13 0M13 21.5a6.5 2.5 0 0 0 13 0" />
+      <path d="M5.5 14.5v12a6.5 2.5 0 0 0 13 0v-12" fill="var(--icon-bg, #fbfaf7)" />
+      <ellipse cx="12" cy="14.5" rx="6.5" ry="2.5" fill="var(--icon-bg, #fbfaf7)" />
+      <path d="M5.5 18.5a6.5 2.5 0 0 0 13 0M5.5 22.5a6.5 2.5 0 0 0 13 0" />
     </symbol>
-    <symbol id="i-people" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="10.5" r="3.6"/>
-      <path d="M3.5 25v-2.2a7.5 7.5 0 0 1 15 0V25Z"/>
-      <circle cx="21.5" cy="10" r="4"/>
-      <path d="M13.5 25v-2.6a8 8 0 0 1 16 0V25Z" fill="var(--icon-bg, #fbfaf7)"/>
+    <symbol id="i-people" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.9"
+      stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="10.5" r="3.6" />
+      <path d="M3.5 25v-2.2a7.5 7.5 0 0 1 15 0V25Z" />
+      <circle cx="21.5" cy="10" r="4" />
+      <path d="M13.5 25v-2.6a8 8 0 0 1 16 0V25Z" fill="var(--icon-bg, #fbfaf7)" />
     </symbol>
     <symbol id="i-pin" viewBox="0 0 22 32">
-      <path d="M11 0C4.93 0 0 4.9 0 10.95 0 18.9 11 32 11 32s11-13.1 11-21.05C22 4.9 17.07 0 11 0Z" fill="currentColor"/>
-      <circle cx="11" cy="10.8" r="3.9" fill="var(--pin-hole, #e3eadd)"/>
+      <path d="M11 0C4.93 0 0 4.9 0 10.95 0 18.9 11 32 11 32s11-13.1 11-21.05C22 4.9 17.07 0 11 0Z"
+        fill="currentColor" />
+      <circle cx="11" cy="10.8" r="3.9" fill="var(--pin-hole, #e3eadd)" />
     </symbol>
-    <symbol id="i-clock" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="13" cy="13" r="11.2"/>
-      <path d="M12.6 6.6v6.8l3.8 4"/>
+    <symbol id="i-clock" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+      stroke-linejoin="round">
+      <circle cx="13" cy="13" r="11.2" />
+      <path d="M12.6 6.6v6.8l3.8 4" />
     </symbol>
     <symbol id="i-navigate" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M21.4 2.6 2.8 10.4a.6.6 0 0 0 .05 1.12l7.6 2.03 2.03 7.6a.6.6 0 0 0 1.12.05L21.4 2.6Z"/>
+      <path d="M21.4 2.6 2.8 10.4a.6.6 0 0 0 .05 1.12l7.6 2.03 2.03 7.6a.6.6 0 0 0 1.12.05L21.4 2.6Z" />
     </symbol>
   </svg>
 
@@ -58,7 +92,9 @@
   <header class="site-header" id="top">
     <div class="wrap header__inner">
       <a class="brand" href="#top" aria-label="Currency Exchange, back to top">
-        <svg class="brand__mark" aria-hidden="true"><use href="#i-mark"/></svg>
+        <svg class="brand__mark" aria-hidden="true">
+          <use href="#i-mark" />
+        </svg>
         <span class="brand__name">Currency Exchange</span>
       </a>
 
@@ -75,7 +111,9 @@
         </ul>
         <a class="btn btn--dark site-nav__cta" href="#find-us">
           Get directions
-          <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
+          <svg class="btn__arrow" aria-hidden="true">
+            <use href="#i-arrow" />
+          </svg>
         </a>
       </nav>
     </div>
@@ -83,7 +121,9 @@
 
   <main id="main">
     <section class="hero" aria-labelledby="hero-title">
-      <img class="hero__img" src="assets/img/hero.jpg?v=3" width="1039" height="460" alt="Euro, pound and dollar notes beside a passport and a brass globe on a green marble counter" fetchpriority="high">
+      <img class="hero__img" src="assets/img/hero.jpg?v=3" width="1039" height="460"
+        alt="Euro, pound and dollar notes beside a passport and a brass globe on a green marble counter"
+        fetchpriority="high">
       <div class="hero__shade" aria-hidden="true"></div>
 
       <div class="wrap hero__inner">
@@ -93,14 +133,19 @@
             <span class="hero__line">Your next</span>
             <span class="hero__line hero__line--second"><em>journey</em> starts here.</span>
           </h1>
-          <p class="hero__lede">Buy and sell foreign currency in person. Friendly service, clear rates and a convenient local branch.</p>
+          <p class="hero__lede">Buy and sell foreign currency in person. Friendly service, clear rates and a convenient
+            local branch.</p>
           <div class="hero__actions">
             <a class="btn btn--light" href="#find-us">
               Visit our branch
-              <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
+              <svg class="btn__arrow" aria-hidden="true">
+                <use href="#i-arrow" />
+              </svg>
             </a>
             <a class="btn btn--outline" href="tel:+442079460321">
-              <svg class="btn__phone" aria-hidden="true"><use href="#i-phone"/></svg>
+              <svg class="btn__phone" aria-hidden="true">
+                <use href="#i-phone" />
+              </svg>
               Call the team
             </a>
           </div>
@@ -114,23 +159,28 @@
       <ul class="wrap rates__list">
         <li class="currency">
           <span class="currency__symbol" aria-hidden="true">€</span>
-          <span class="currency__text"><span class="currency__code">EUR</span><span class="currency__name">Euro</span></span>
+          <span class="currency__text"><span class="currency__code">EUR</span><span
+              class="currency__name">Euro</span></span>
         </li>
         <li class="currency">
           <span class="currency__symbol" aria-hidden="true">$</span>
-          <span class="currency__text"><span class="currency__code">USD</span><span class="currency__name">US Dollar</span></span>
+          <span class="currency__text"><span class="currency__code">USD</span><span class="currency__name">US
+              Dollar</span></span>
         </li>
         <li class="currency">
           <span class="currency__symbol" aria-hidden="true">£</span>
-          <span class="currency__text"><span class="currency__code">GBP</span><span class="currency__name">British Pound</span></span>
+          <span class="currency__text"><span class="currency__code">GBP</span><span class="currency__name">British
+              Pound</span></span>
         </li>
         <li class="currency">
           <span class="currency__symbol currency__symbol--text" aria-hidden="true">Fr.</span>
-          <span class="currency__text"><span class="currency__code">CHF</span><span class="currency__name">Swiss Franc</span></span>
+          <span class="currency__text"><span class="currency__code">CHF</span><span class="currency__name">Swiss
+              Franc</span></span>
         </li>
         <li class="currency">
           <span class="currency__symbol" aria-hidden="true">¥</span>
-          <span class="currency__text"><span class="currency__code">JPY</span><span class="currency__name">Japanese Yen</span></span>
+          <span class="currency__text"><span class="currency__code">JPY</span><span class="currency__name">Japanese
+              Yen</span></span>
         </li>
         <li class="rates__note">Contact our branch<br> for today’s rates.</li>
       </ul>
@@ -139,20 +189,26 @@
     <section class="about" id="about" aria-labelledby="about-title">
       <div class="about__inner">
         <figure class="about__media">
-          <img src="assets/img/storefront.jpg" width="614" height="399" loading="lazy" alt="The Currency Exchange branch: a dark green shop front with gold lettering, olive trees and warm lights inside">
+          <img src="assets/img/storefront.jpg" width="614" height="399" loading="lazy"
+            alt="The Currency Exchange branch: a dark green shop front with gold lettering, olive trees and warm lights inside">
         </figure>
 
         <div class="about__body">
           <p class="eyebrow eyebrow--rule">A personal approach</p>
           <h2 class="section-title" id="about-title">Real people.<br> Local expertise.</h2>
-          <p class="about__text">Whether you’re heading abroad or returning home, our team can help with your currency exchange. Drop into our branch and speak to us in person.</p>
+          <p class="about__text">Whether you’re heading abroad or returning home, our team can help with your currency
+            exchange. Drop into our branch and speak to us in person.</p>
           <ul class="features">
             <li class="feature">
-              <span class="feature__icon"><svg aria-hidden="true"><use href="#i-coins"/></svg></span>
+              <span class="feature__icon"><svg aria-hidden="true">
+                  <use href="#i-coins" />
+                </svg></span>
               <span class="feature__label">Buy &amp; sell<br> currency</span>
             </li>
             <li class="feature">
-              <span class="feature__icon"><svg aria-hidden="true"><use href="#i-people"/></svg></span>
+              <span class="feature__icon"><svg aria-hidden="true">
+                  <use href="#i-people" />
+                </svg></span>
               <span class="feature__label">In-branch<br> service</span>
             </li>
           </ul>
@@ -169,24 +225,34 @@
 
           <ul class="visit__details">
             <li>
-              <svg class="visit__icon visit__icon--pin" aria-hidden="true"><use href="#i-pin"/></svg>
+              <svg class="visit__icon visit__icon--pin" aria-hidden="true">
+                <use href="#i-pin" />
+              </svg>
               <address>[Street address]<br>[Town / Postcode]</address>
             </li>
             <li>
-              <svg class="visit__icon visit__icon--clock" aria-hidden="true"><use href="#i-clock"/></svg>
+              <svg class="visit__icon visit__icon--clock" aria-hidden="true">
+                <use href="#i-clock" />
+              </svg>
               <span>Opening hours: to be confirmed</span>
             </li>
           </ul>
 
-          <a class="btn btn--dark btn--maps" href="https://www.google.com/maps/search/?api=1&amp;query=51.5117,-0.1223" target="_blank" rel="noopener">
-            <svg class="btn__navigate" aria-hidden="true"><use href="#i-navigate"/></svg>
+          <a class="btn btn--dark btn--maps" href="https://www.google.com/maps/search/?api=1&amp;query=51.5117,-0.1223"
+            target="_blank" rel="noopener">
+            <svg class="btn__navigate" aria-hidden="true">
+              <use href="#i-navigate" />
+            </svg>
             Open in Google Maps
-            <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
+            <svg class="btn__arrow" aria-hidden="true">
+              <use href="#i-arrow" />
+            </svg>
           </a>
         </div>
 
         <figure class="visit__map">
-          <div class="map" id="branch-map" data-lat="51.5117" data-lng="-0.1223" role="region" aria-label="Map showing the branch location"></div>
+          <div class="map" id="branch-map" data-lat="51.5117" data-lng="-0.1223" role="region"
+            aria-label="Map showing the branch location"></div>
           <figcaption>Illustrative map · location to be added</figcaption>
         </figure>
       </div>
@@ -197,21 +263,27 @@
     <div class="wrap">
       <div class="footer__top">
         <a class="brand brand--footer" href="#top" aria-label="Currency Exchange, back to top">
-          <svg class="brand__mark" aria-hidden="true"><use href="#i-mark"/></svg>
+          <svg class="brand__mark" aria-hidden="true">
+            <use href="#i-mark" />
+          </svg>
           <span class="brand__name">Currency Exchange</span>
         </a>
         <p class="footer__tagline">Currency exchange, with a personal touch.</p>
         <nav class="footer__nav" aria-label="Footer">
           <a href="tel:+442079460321">Contact</a>
           <span aria-hidden="true">·</span>
-          <a href="https://www.google.com/maps/dir/?api=1&amp;destination=51.5117,-0.1223" target="_blank" rel="noopener">Directions</a>
+          <a href="https://www.google.com/maps/dir/?api=1&amp;destination=51.5117,-0.1223" target="_blank"
+            rel="noopener">Directions</a>
         </nav>
       </div>
       <p class="footer__note">Design concept · Business details are placeholders</p>
     </div>
   </footer>
 
-  <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js" integrity="sha384-5+cfbwT0iiub6VsQAdn6yz16nr6sDiQoHx6tm4O8OVYXHYOxcffFmCJBL0dgdvGp" crossorigin="anonymous" defer></script>
+  <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"
+    integrity="sha384-5+cfbwT0iiub6VsQAdn6yz16nr6sDiQoHx6tm4O8OVYXHYOxcffFmCJBL0dgdvGp" crossorigin="anonymous"
+    defer></script>
   <script src="js/main.js?v=2" defer></script>
 </body>
+
 </html>
