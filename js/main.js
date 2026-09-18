@@ -45,7 +45,7 @@
     return;
   }
 
-  // Placeholder location in central London. Replace with the real branch coordinates.
+  // Quick Stop, 140 Station Rd, Edgware HA8 7AA.
   const branch = [Number(mapEl.dataset.lng), Number(mapEl.dataset.lat)];
 
   const map = new maplibregl.Map({
@@ -80,7 +80,7 @@
   pin.className = 'branch-marker';
   pin.innerHTML =
     '<svg aria-hidden="true"><use href="#i-pin"/></svg>' +
-    '<span class="branch-marker__label">Our branch</span>';
+    '<span class="branch-marker__label">Quick Stop</span>';
   new maplibregl.Marker({ element: pin, anchor: 'bottom' }).setLngLat(branch).addTo(map);
 
   function applyMapColours(m) {
