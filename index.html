@@ -42,9 +42,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&display=swap">
-  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css"
-    integrity="sha384-uTttxo/aOKbdE5RlD/SPzSDoDmNvGlUYPjONi2MN/b7c9HPSvW07OIuyP7uL6jxK" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/styles.css?v=8">
+  <link rel="stylesheet" href="css/styles.css?v=9">
 </head>
 
 <body>
@@ -170,7 +168,7 @@
               <svg class="btn__phone" aria-hidden="true">
                 <use href="#i-phone" />
               </svg>
-              Call the team
+              Call us
             </a>
           </div>
         </div>
@@ -300,8 +298,12 @@
         </div>
 
         <figure class="visit__map">
-          <div class="map" id="branch-map" data-lat="51.61275" data-lng="-0.27669" role="region"
-            aria-label="Map showing Quick Stop at 140 Station Road, Edgware"></div>
+          <div class="map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2477.569028612637!2d-0.27678300000000006!3d51.6127848!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487616a42b8489cd%3A0x186fd2fa5adc3445!2sQuick%20Stop!5e0!3m2!1sen!2suk!4v1789720865953!5m2!1sen!2suk"
+              title="Google Maps: Quick Stop, 140 Station Rd, Edgware HA8 7AA" loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
           <figcaption>Quick Stop · 140 Station Rd, Edgware HA8 7AA</figcaption>
         </figure>
       </div>
@@ -329,10 +331,7 @@
     </div>
   </footer>
 
-  <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"
-    integrity="sha384-5+cfbwT0iiub6VsQAdn6yz16nr6sDiQoHx6tm4O8OVYXHYOxcffFmCJBL0dgdvGp" crossorigin="anonymous"
-    defer></script>
-  <script src="js/main.js?v=3" defer></script>
+  <script src="js/main.js?v=4" defer></script>
 </body>
 
 </html>

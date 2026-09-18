@@ -650,62 +650,28 @@ address { font-style: normal; }
 }
 
 .map {
+  position: relative;
   flex: 1 0 auto;
   height: calc(318 * var(--k));
   overflow: hidden;
-  border: 2px solid #fbfbf8;
-  border-radius: calc(4 * var(--k));
+  border: calc(4 * var(--k)) solid #fbfbf8;
+  border-radius: calc(8 * var(--k));
   background: #ecebe6;
-  box-shadow: 0 1px 2px rgba(15, 32, 25, 0.06);
+  box-shadow: 0 1px 2px rgba(15, 32, 25, 0.08), 0 calc(14 * var(--k)) calc(32 * var(--k)) calc(-14 * var(--k)) rgba(15, 32, 25, 0.3);
+}
+.map iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: calc(4 * var(--k));
 }
 
 .visit__map figcaption {
   margin-top: calc(6 * var(--k));
   font-size: max(11px, calc(9.5 * var(--k)));
   color: var(--muted);
-}
-
-/* MapLibre overrides */
-.map .maplibregl-ctrl-bottom-right { display: flex; flex-direction: column; align-items: flex-end; }
-.map .maplibregl-ctrl-group {
-  margin: 0 calc(10 * var(--k)) calc(6 * var(--k)) 0;
-  border-radius: 2px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
-}
-.map .maplibregl-ctrl-group button { width: 28px; height: 28px; }
-.map .maplibregl-ctrl-attrib { font-family: system-ui, sans-serif; font-size: 10px; }
-.map .maplibregl-cooperative-gesture-screen { font-family: var(--sans); font-size: 15px; }
-
-.map--fallback {
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  text-align: center;
-  color: var(--muted);
-}
-
-.branch-marker {
-  width: 26px;
-  height: 38px;
-}
-.branch-marker svg {
-  --pin-hole: #fbfaf7;
-  width: 26px;
-  height: 38px;
-  color: var(--green);
-  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.25));
-}
-.branch-marker__label {
-  position: absolute;
-  top: 4px;
-  left: 36px;
-  padding: 6px 12px;
-  border-radius: 3px;
-  background: var(--green);
-  color: #fff;
-  font: 500 11px/1 var(--sans);
-  white-space: nowrap;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 /* ---------- Footer ---------- */
@@ -931,7 +897,7 @@ address { font-style: normal; }
   .visit__lead { font-size: 17px; }
   .visit__details li { font-size: 16px; line-height: 1.45; }
   .btn--maps { height: 50px; font-size: 16px; }
-  .map { height: 360px; }
+  .map { height: 420px; }
   .visit__map figcaption { font-size: 12px; }
 
   /* Footer */
