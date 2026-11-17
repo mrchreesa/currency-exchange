@@ -1,0 +1,6 @@
+{
+  "name": "quick-currency-exchange",
+  "private": true,
+  "type": "module",
+  "description": "Quick Currency Exchange, Edgware. Static site plus Vercel Functions in /api."
+}

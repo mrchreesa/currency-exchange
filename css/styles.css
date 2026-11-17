@@ -30,7 +30,7 @@
   --sans: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --gutter: calc(48 * var(--k));
-  --header-h: calc(64 * var(--k));
+  --header-h: calc(72 * var(--k));
   --radius: calc(3 * var(--k));
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
@@ -173,29 +173,31 @@ address { font-style: normal; }
   align-items: center;
   justify-content: space-between;
   height: var(--header-h);
-  padding-inline: calc(50 * var(--k)) calc(42 * var(--k));
+  padding-inline: calc(44 * var(--k)) calc(42 * var(--k));
 }
 
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: calc(20 * var(--k));
+  gap: calc(14 * var(--k));
   color: var(--ink);
 }
 
 .brand__mark {
-  width: calc(37 * var(--k));
-  height: calc(32 * var(--k));
+  flex: none;
+  width: calc(38 * var(--k));
+  height: calc(33 * var(--k));
   overflow: visible;
 }
 
+/* The shop name is the wordmark: set large in the display serif so it reads from across the street. */
 .brand__name {
-  font-family: var(--sans);
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 60;
   font-weight: 600;
-  font-size: calc(14.5 * var(--k));
+  font-size: calc(24 * var(--k));
   line-height: 1;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  letter-spacing: -0.012em;
   white-space: nowrap;
 }
 
@@ -700,16 +702,21 @@ address { font-style: normal; }
   color: var(--gold);
 }
 
-.reserve__form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: calc(18 * var(--k)) calc(14 * var(--k));
+.reserve__panel {
   padding: calc(30 * var(--k));
   border: 1px solid rgba(232, 195, 90, 0.3);
   border-radius: calc(6 * var(--k));
   background: #1e1c18;
   color-scheme: dark;
 }
+
+.reserve__form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(18 * var(--k)) calc(14 * var(--k));
+}
+.reserve__form[hidden],
+.reserve__done[hidden] { display: none; }
 
 .field {
   display: grid;
@@ -786,12 +793,45 @@ address { font-style: normal; }
 }
 
 .reserve__estimate {
-  grid-column: 1 / -1;
   min-height: calc(22 * var(--k));
   font-style: italic;
   font-size: calc(16 * var(--k));
   color: var(--gold);
 }
+
+.field__optional {
+  font-weight: 400;
+  color: rgba(244, 239, 226, 0.5);
+}
+
+.field__error {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: max(12.5px, calc(13 * var(--k)));
+  line-height: 1.35;
+  color: #ffb4a2;
+}
+.field [aria-invalid="true"] { border-color: #ff8f7a; }
+
+/* Spam trap: off screen for people, still in the form for bots. */
+.field--trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Estimate and the bot check share one row, so an invisible check adds no space. */
+.reserve__meta { grid-column: 1 / -1; }
+
+.reserve__status {
+  grid-column: 1 / -1;
+  font-size: calc(15 * var(--k));
+  line-height: calc(21 * var(--k));
+  color: #ffb4a2;
+}
+.reserve__status:empty { display: none; }
 
 .reserve__submit {
   grid-column: 1 / -1;
@@ -799,10 +839,79 @@ address { font-style: normal; }
   font-size: calc(16.5 * var(--k));
 }
 
+.reserve__submit.is-busy {
+  cursor: progress;
+  opacity: 0.75;
+}
+
 .reserve__hint {
   grid-column: 1 / -1;
   font-size: max(12px, calc(12.5 * var(--k)));
   color: rgba(244, 239, 226, 0.58);
+}
+
+/* Sent state, shown in place of the form. */
+.reserve__done {
+  display: grid;
+  justify-items: start;
+  gap: calc(12 * var(--k));
+  padding-block: calc(8 * var(--k));
+}
+.reserve__done:focus { outline: none; }
+
+.reserve__tick {
+  position: relative;
+  width: calc(54 * var(--k));
+  height: calc(54 * var(--k));
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+}
+.reserve__tick::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 34%;
+  height: 18%;
+  border-left: 2.5px solid var(--gold);
+  border-bottom: 2.5px solid var(--gold);
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.reserve__done-title {
+  margin: calc(6 * var(--k)) 0 0;
+  font-variation-settings: "opsz" 60;
+  font-weight: 600;
+  font-size: calc(34 * var(--k));
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.reserve__done p {
+  font-size: calc(16.5 * var(--k));
+  line-height: calc(24 * var(--k));
+  color: rgba(244, 239, 226, 0.86);
+}
+.reserve__done strong {
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+}
+.reserve__done .btn { margin-top: calc(10 * var(--k)); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .reserve__done:not([hidden]) .reserve__tick { animation: tick-in 0.6s cubic-bezier(0.2, 0.8, 0.2, 1.3) both; }
+  .reserve__done:not([hidden]) .reserve__tick::after { animation: tick-draw 0.4s ease-out 0.3s both; }
+}
+@keyframes tick-draw {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 -10% -10% 0); }
+}
+@keyframes tick-in {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: none; }
 }
 
 /* ---------- Motion: hero entrance, scroll reveals, rolling rates ---------- */
@@ -1180,17 +1289,13 @@ address { font-style: normal; }
 .brand--footer {
   --mark-top: var(--gold);
   --mark-bottom: var(--gold);
-  gap: calc(18 * var(--k));
   color: #fff;
 }
 .brand--footer .brand__mark {
-  width: calc(31 * var(--k));
-  height: calc(27 * var(--k));
+  width: calc(32 * var(--k));
+  height: calc(28 * var(--k));
 }
-.brand--footer .brand__name {
-  font-size: calc(13 * var(--k));
-  letter-spacing: 0.26em;
-}
+.brand--footer .brand__name { font-size: calc(21 * var(--k)); }
 
 .footer__tagline {
   max-width: calc(220 * var(--k));
@@ -1251,9 +1356,10 @@ address { font-style: normal; }
 
   /* Header + menu */
   .header__inner { padding-inline: var(--gutter) 14px; }
-  .brand { gap: 14px; }
+  :root { --header-h: 64px; }
+  .brand { gap: 10px; min-width: 0; }
   .brand__mark { width: 32px; height: 28px; }
-  .brand__name { font-size: 13px; letter-spacing: 0.26em; }
+  .brand__name { font-size: clamp(17px, 5.4vw, 23px); }
 
   .menu-toggle {
     display: inline-grid;
@@ -1383,9 +1489,14 @@ address { font-style: normal; }
   }
   .reserve__lead { max-width: 520px; font-size: 17px; line-height: 1.5; }
   .steps li { font-size: 16px; line-height: 1.4; }
-  .reserve__form { padding: 22px 18px; }
+  .reserve__panel { padding: 22px 18px; }
   .field input:not([type="radio"]),
   .field select { height: 50px; }
+  .field__error { font-size: 14px; }
+  .reserve__status { font-size: 16px; line-height: 1.45; }
+  .reserve__done-title { font-size: 32px; }
+  .reserve__done p { font-size: 17px; line-height: 1.5; }
+  .reserve__done .btn { height: 50px; font-size: 16px; }
   .field--switch span { height: 48px; }
   .reserve__submit { height: 54px; font-size: 17px; }
 
