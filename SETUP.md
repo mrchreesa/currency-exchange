@@ -39,14 +39,20 @@ customers get no confirmation. To switch confirmations on, verify a domain in Re
 
 Cloudflare dashboard → **Turnstile** → Add widget.
 
-- Hostnames: `currency-exchange-quick-stop.vercel.app` (add any custom domain later; Vercel preview links won't pass)
+- Hostnames: `quickcurrencyexchange.uk` and `currency-exchange-quick-stop.vercel.app`. The apex entry also covers `www` in Cloudflare. Vercel preview links won't pass.
 - Widget mode: Managed
 
 | Variable | Value |
 | --- | --- |
 | `TURNSTILE_SITE_KEY` | Site key |
 | `TURNSTILE_SECRET_KEY` | Secret key |
-| `TURNSTILE_HOSTNAMES` | Optional comma-separated allowed hostnames. Defaults to `currency-exchange-quick-stop.vercel.app`. Update this and the Cloudflare widget together when adding a custom domain. |
+| `TURNSTILE_HOSTNAMES` | Production: `quickcurrencyexchange.uk,www.quickcurrencyexchange.uk,currency-exchange-quick-stop.vercel.app`. Update this and the Cloudflare widget together when changing domains. |
+
+## Website domain
+
+`https://quickcurrencyexchange.uk` is the canonical website. Vercel redirects `www.quickcurrencyexchange.uk`
+to the apex domain with a permanent redirect. Cloudflare manages DNS in DNS-only mode; Vercel serves the
+website and HTTPS certificate. Keep the records aligned with the recommendations in Vercel's Domains settings.
 
 ## How the rates work
 
