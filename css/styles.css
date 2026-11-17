@@ -1889,8 +1889,3 @@ html.is-locked { overflow: hidden; }
     transition-duration: 0.01ms !important;
   }
 }
-
-.tracking-note { max-width: 1180px; margin: 0 auto; padding: 1.5rem 1.25rem; font-size: .9rem; }
-.tracking-note summary { cursor: pointer; font-weight: 600; }
-.tracking-note p { max-width: 80ch; margin: .65rem 0; }
-.tracking-note .btn { margin-top: .8rem; font-size: .85rem; }

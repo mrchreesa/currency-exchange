@@ -11,13 +11,6 @@
   function sync() {
     window.WebM8Analytics?.consent(enabled());
     window.dispatchEvent(new Event('webm8:privacy'));
-    const button = document.getElementById('privacy-toggle');
-    button.disabled = privacySignal();
-    button.setAttribute('aria-pressed', String(!enabled()));
-    button.textContent = enabled() ? 'Turn off measurement & draft saving' : 'Turn on measurement & draft saving';
-    document.getElementById('privacy-state').textContent = privacySignal()
-      ? 'Measurement and draft saving are off because your browser requests privacy.'
-      : enabled() ? 'Measurement and draft saving are on.' : 'Measurement and draft saving are off.';
     if (!enabled()) return;
     if (!window.WebM8Analytics && !loading) {
       loading = true;
@@ -30,11 +23,6 @@
       document.head.append(script);
     }
   }
-  document.getElementById('privacy-toggle').addEventListener('click', () => {
-    allowed = !allowed;
-    try { localStorage.setItem(key, JSON.stringify({ allowed, expires: Date.now() + 180 * 86400000 })); } catch {}
-    sync();
-  });
   window.addEventListener('webm8:ready', sync);
   window.addEventListener('storage', event => {
     if (event.key !== key && event.key !== null) return;

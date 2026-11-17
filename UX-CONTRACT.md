@@ -19,7 +19,7 @@ Refresh never discards unsaved rate edits. Requests are retained before sending.
 
 ## Measurement
 
-All public actions have stable analytics IDs. Actual answers travel through private draft capture, separate from anonymous events; credentials, anti-bot inputs and the admin page are excluded. Visitors can turn measurement off and still submit a reservation.
+All public actions have stable analytics IDs. Actual answers travel through private draft capture, separate from anonymous events; credentials, anti-bot inputs and the admin page are excluded. Browser privacy signals and previously saved opt-outs are honoured. The owner requested no added privacy pop-ups, dialogs or footer measurement panel.
 
 ## Static review limitation
 

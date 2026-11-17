@@ -53,7 +53,7 @@ Admin controls and delivery notices inherit the 8px radius. Public buttons retai
 
 The existing .button, .button--small, .note, .request and .card classes own admin presentation. Native buttons own delivery actions; #delivery-action-status is the persistent live status for network errors. Disable repeat actions while pending. Dates and rates remain in the existing workflow; this feature does not change pricing decisions or confirmations.
 
-The reservation form uses existing labelled fields and inline validation, an authored accessible currency list, and a native collection-date input. Tracking uses explicit stable control labels. A public privacy disclosure and button allow measurement and private draft saving to be disabled. Passwords, tokens, honeypots and private admin pages are excluded.
+The reservation form uses existing labelled fields and inline validation, an authored accessible currency list, and a native collection-date input. Tracking uses explicit stable control labels. No additional privacy pop-ups, dialogs or footer panel are added. Browser privacy signals and existing measurement preferences are honoured; draft saving has a plain explanation beside the form. Passwords, tokens, honeypots and private admin pages are excluded.
 
 ## Do's and Don'ts
 
