@@ -64,11 +64,16 @@
         back to No1’s rates by itself.</p>
     </section>
 
-    <section class="card" aria-labelledby="requests-title">
+    <section class="card" id="request-section" aria-labelledby="requests-title">
       <div class="card__head">
         <h2 class="card__title" id="requests-title">Reservation requests</h2>
         <span class="count" id="requests-count"></span>
       </div>
+      <div class="delivery-summary" id="delivery-summary" role="status" aria-live="polite"></div>
+      <button class="button button--small" type="button" id="refresh-requests">Refresh requests &amp; delivery</button>
+      <p class="note">If email is delayed, use the phone number below to confirm the request. “Delivered” means the receiving mail server accepted it, not a guarantee of Inbox placement.</p>
+      <p class="note"><a href="https://webm8-crm.vercel.app/app/quick-currency-exchange/websites?site=b135d664-b0e2-4c0b-813f-97705db8f4ec&amp;view=leads" target="_blank" rel="noreferrer">Open submitted CRM enquiries ↗</a></p>
+      <p id="delivery-action-status" class="note" role="status" aria-live="polite"></p>
       <ol class="requests" id="requests"></ol>
     </section>
   </main>
@@ -81,7 +86,7 @@
 
   <p class="toast" id="toast" role="status" aria-live="polite"></p>
 
-  <script src="js/admin.js?v=1" defer></script>
+  <script src="js/admin.js?v=2" defer></script>
 </body>
 
 </html>

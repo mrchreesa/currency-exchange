@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { generateKeyPairSync } from 'node:crypto';
 import { after, beforeEach, mock, test } from 'node:test';
 
 // All services are local fakes. Never load deployment credentials or use the network.
@@ -10,6 +11,7 @@ process.env.RESEND_API_KEY = 'test-placeholder';
 process.env.VERCEL = '1';
 delete process.env.RESEND_FROM;
 delete process.env.TURNSTILE_HOSTNAMES;
+process.env.WEBM8_LEAD_SETUP_FILE = JSON.stringify({ endpoint: 'https://webm8-platform.vercel.app/api/ingest/v1/leads', keyId: 'w8_test', privateKeyPem: generateKeyPairSync('ed25519').privateKey.export({format:'pem',type:'pkcs8'}) });
 
 const HOST = 'currency-exchange-quick-stop.vercel.app';
 const entries = new Map();
@@ -30,6 +32,22 @@ function command([op, key, ...args]) {
   const item = entry(key);
   let result;
   switch (op) {
+    case 'MGET': result = [key, ...args].map(k => entry(k)?.value ?? null); break;
+    case 'EVAL': {
+      if (key.includes('qce_accept_v1')) {
+        const [,dup,delivery,reservations,index,pointer,job,record,id] = args;
+        if (entry(dup)) return { result: entry(dup).value };
+        command(['SET',dup,pointer,'EX',86400]); command(['SET',delivery,job,'EX',2592000]);
+        command(['LPUSH',reservations,record]); command(['LTRIM',reservations,0,199]);
+        command(['LPUSH',index,id]); command(['LTRIM',index,0,1499]);
+        result = 'created';
+      } else {
+        const [,casKey,expected,next,ttl] = args;
+        if (entry(casKey)?.value !== expected) result = 0;
+        else { command(['SET',casKey,next,'EX',ttl]); result = 1; }
+      }
+      break;
+    }
     case 'GET': result = item?.value ?? null; break;
     case 'SET': {
       if (args.includes('NX') && item) return { result: null };
@@ -77,6 +95,7 @@ globalThis.fetch = async (url, options) => {
       success: payload.response === 'valid-token', hostname: HOST, action: 'reserve',
     });
   }
+  if (url === 'https://webm8-platform.vercel.app/api/ingest/v1/leads') return Response.json({success:true,leadId:'test-crm-lead',duplicate:false});
   if (url === 'https://api.resend.com/emails') {
     sent.push(payload);
     return Response.json({ id: `local-email-${sent.length}` });

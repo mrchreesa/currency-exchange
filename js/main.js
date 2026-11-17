@@ -159,7 +159,7 @@
 
     const wrap = document.createElement('div');
     wrap.className = 'picker';
-    wrap.innerHTML = `<button type="button" class="picker__button" id="r-currency-button" role="combobox"
+    wrap.innerHTML = `<button type="button" class="picker__button" id="r-currency-button" data-analytics-id="reservation-open-currencies" role="combobox"
       aria-haspopup="listbox" aria-expanded="false" aria-controls="r-currency-list"
       aria-labelledby="r-currency-label r-currency-button"></button>`;
     const button = wrap.firstElementChild;
@@ -169,16 +169,17 @@
     popup.innerHTML = `
       <div class="picker__head">
         <p class="picker__title">Choose a currency</p>
-        <button type="button" class="picker__close" aria-label="Close">${icon('i-close', '')}</button>
+        <button type="button" class="picker__close" data-analytics-id="reservation-close-currencies" aria-label="Close currency list">${icon('i-close', '')}</button>
       </div>
       <div class="picker__cols" aria-hidden="true"><span>Currency</span><span class="picker__cols-rate"></span></div>
       <ul class="picker__list" id="r-currency-list" role="listbox" aria-labelledby="r-currency-label">
-        ${items.map((item) => `<li class="picker__option" id="r-currency-${item.code}" role="option" aria-selected="false">${flag(item)}<span class="picker__code">${item.code}</span><span class="picker__name">${item.name}</span><span class="picker__rate"></span>${icon('i-check', 'picker__check')}</li>`).join('')}
+        ${items.map((item) => `<li class="picker__option" id="r-currency-${item.code}" data-analytics-id="reservation-currency-${item.code.toLowerCase()}" role="option" aria-selected="false">${flag(item)}<span class="picker__code">${item.code}</span><span class="picker__name">${item.name}</span><span class="picker__rate"></span>${icon('i-check', 'picker__check')}</li>`).join('')}
       </ul>`;
     wrap.append(popup);
 
     const backdrop = document.createElement('div');
     backdrop.className = 'picker__backdrop';
+    backdrop.dataset.analyticsId = 'reservation-dismiss-currencies';
     document.body.append(backdrop);
 
     select.hidden = true;
@@ -505,6 +506,8 @@
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    if (submit.disabled) return;
+    window.WebM8Analytics?.form('currency_reservation', 'submit', { step: 1, steps: 1 });
     clearErrors();
 
     // Browser-side checks first, so people see problems without a round trip.
@@ -517,6 +520,7 @@
       }
     });
     if (firstBad) {
+      window.WebM8Analytics?.form('currency_reservation', 'submission_error', { code: 'invalid' });
       firstBad.focus();
       return;
     }
@@ -525,6 +529,7 @@
     try {
       const token = await getToken();
       if (check.siteKey && !token) {
+        window.WebM8Analytics?.form('currency_reservation', 'submission_error', { code: 'unavailable' });
         status.textContent = 'We couldn’t run the quick bot check. Please try again in a moment.';
         resetCheck();
         return;
@@ -539,6 +544,7 @@
       const result = await response.json().catch(() => ({}));
 
       if (!response.ok || !result.ok) {
+        window.WebM8Analytics?.form('currency_reservation', 'submission_error', { code: response.status === 429 ? 'unavailable' : 'server' });
         resetCheck();
         if (result.errors) {
           Object.entries(result.errors).forEach(([name, message]) => setFieldError(name, message));
@@ -549,16 +555,19 @@
         return;
       }
 
+      window.WebM8Analytics?.form('currency_reservation', 'success', { step: 1, steps: 1 });
       document.getElementById('r-ref').textContent = result.ref;
       const phone = form.elements.phone.value.trim();
       document.getElementById('r-next').textContent = result.customerEmailed
         ? `We’ll call you on ${phone} to confirm, and we’ve emailed you a copy.`
         : `We’ll call you on ${phone} to confirm the rate and collection time.`;
+      if (result.emailPending) document.getElementById('r-next').textContent += ' The shop’s email alert is delayed. For urgent collection, please call 020 8951 1500.';
       form.hidden = true;
       done.hidden = false;
       done.focus();
     } catch {
       resetCheck();
+      window.WebM8Analytics?.form('currency_reservation', 'submission_error', { code: 'network' });
       status.textContent = 'You seem to be offline. Please try again, or call us on 020 8951 1500.';
     } finally {
       setBusy(false);

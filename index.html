@@ -43,7 +43,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=18">
+  <link rel="stylesheet" href="css/styles.css?v=19">
 </head>
 
 <body>
@@ -134,35 +134,35 @@
     </symbol>
   </svg>
 
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main" data-analytics-id="accessibility-skip-content">Skip to content</a>
 
   <header class="site-header" id="top">
     <div class="wrap header__inner">
-      <a class="brand" href="#top" aria-label="Quick Currency Exchange, back to top">
+      <a class="brand" href="#top" aria-label="Quick Currency Exchange, back to top" data-analytics-id="header-home">
         <svg class="brand__mark" aria-hidden="true">
           <use href="#i-mark" />
         </svg>
         <span class="brand__name">Quick Currency Exchange</span>
       </a>
 
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-analytics-id="header-mobile-menu">
         <span class="menu-toggle__bars" aria-hidden="true"></span>
         <span class="sr-only">Menu</span>
       </button>
 
       <nav class="site-nav" id="site-nav" aria-label="Main">
         <ul class="site-nav__links">
-          <li><a href="#rates">Today’s rates</a></li>
-          <li><a href="#services">Our services</a></li>
-          <li><a href="#find-us">Find us</a></li>
+          <li><a href="#rates" data-analytics-id="header-rates">Today’s rates</a></li>
+          <li><a href="#services" data-analytics-id="header-services">Our services</a></li>
+          <li><a href="#find-us" data-analytics-id="header-find-us">Find us</a></li>
         </ul>
         <div class="site-nav__actions">
-          <a class="btn btn--dark site-nav__cta" href="#reserve">
+          <a class="btn btn--dark site-nav__cta" href="#reserve" data-analytics-id="header-reserve">
             Reserve currency
             <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
           </a>
           <a class="btn btn--gold site-nav__cta site-nav__call" href="tel:+442089511500"
-            data-analytics-label="header_call_us_now">
+            data-analytics-id="header-call-us">
             <svg class="btn__phone" aria-hidden="true"><use href="#i-phone" /></svg>
             Call Us Now
           </a>
@@ -173,7 +173,7 @@
   </header>
 
   <main id="main">
-    <section class="hero" aria-labelledby="hero-title">
+    <section data-analytics-section="hero" class="hero" aria-labelledby="hero-title">
       <img class="hero__img" src="assets/img/counter.jpg" width="1672" height="941"
         alt="A cashier smiles as she hands euro and dollar notes to a customer holding a passport"
         fetchpriority="high">
@@ -189,11 +189,11 @@
           <p class="hero__lede">Buy and sell foreign currency with 0% commission. Friendly service, clear rates and a
             short walk from Edgware station.</p>
           <div class="hero__actions">
-            <a class="btn btn--gold" href="#reserve">
+            <a class="btn btn--gold" href="#reserve" data-analytics-id="hero-reserve">
               Reserve currency
               <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
             </a>
-            <a class="btn btn--outline" href="tel:+442089511500" data-analytics-label="hero_call_us_now">
+            <a class="btn btn--outline" href="tel:+442089511500" data-analytics-id="hero-call-us">
               <svg class="btn__phone" aria-hidden="true">
                 <use href="#i-phone" />
               </svg>
@@ -213,14 +213,14 @@
       </p>
     </section>
 
-    <section class="rates" id="rates" aria-labelledby="rates-title">
+    <section data-analytics-section="rates" class="rates" id="rates" aria-labelledby="rates-title">
       <div class="rates__inner">
         <div class="rates__intro" data-reveal>
           <span class="rule" aria-hidden="true"></span>
           <h2 class="section-title" id="rates-title">Today’s rates.<br> No commission.</h2>
           <p class="rates__text">What £1 gets you at our counter. We update the board every morning before we open.</p>
           <p class="rates__stamp" id="rates-stamp">Call or WhatsApp us for today’s rates.</p>
-          <a class="btn btn--dark" href="#reserve">
+          <a class="btn btn--dark" href="#reserve" data-analytics-id="rates-reserve">
             Reserve currency
             <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
           </a>
@@ -325,7 +325,7 @@
       </div>
     </section>
 
-    <section class="about" id="services" aria-labelledby="about-title">
+    <section data-analytics-section="services" class="about" id="services" aria-labelledby="about-title">
       <div class="about__inner">
         <figure class="about__media" data-reveal="wipe">
           <img src="assets/img/exchange.jpg" width="1400" height="1050" loading="lazy"
@@ -367,7 +367,7 @@
       </div>
     </section>
 
-    <section class="reserve" id="reserve" aria-labelledby="reserve-title">
+    <section data-analytics-section="reservation" class="reserve" id="reserve" aria-labelledby="reserve-title">
       <div class="reserve__inner">
         <div class="reserve__info">
           <span class="rule" aria-hidden="true" data-reveal></span>
@@ -381,16 +381,16 @@
         </div>
 
         <div class="reserve__panel" data-reveal>
-          <form class="reserve__form" id="reserve-form" novalidate>
+          <form class="reserve__form" id="reserve-form" data-analytics-form="currency_reservation" data-analytics-step="1" data-analytics-steps="1" novalidate>
             <fieldset class="field field--switch">
               <legend>I want to</legend>
-              <label><input type="radio" name="side" value="buy" checked><span>Buy currency</span></label>
-              <label><input type="radio" name="side" value="sell"><span>Sell currency</span></label>
+              <label><input type="radio" name="side" data-analytics-field="side" value="buy" data-analytics-id="reservation-buy" checked><span>Buy currency</span></label>
+              <label><input type="radio" name="side" data-analytics-field="side" value="sell" data-analytics-id="reservation-sell"><span>Sell currency</span></label>
             </fieldset>
 
             <div class="field field--currency">
               <label for="r-currency" id="r-currency-label">Currency</label>
-              <select id="r-currency" name="currency" required>
+              <select id="r-currency" name="currency" data-analytics-field="currency" required>
                   <option value="EUR" data-flag="eu" data-name="Euro">EUR · Euro</option>
                   <option value="USD" data-flag="us" data-name="US Dollar">USD · US Dollar</option>
                   <option value="AED" data-flag="ae" data-name="UAE Dirham">AED · UAE Dirham</option>
@@ -405,34 +405,34 @@
 
             <div class="field">
               <label for="r-amount">Amount <span id="r-unit">in £</span></label>
-              <input id="r-amount" name="amount" type="number" inputmode="decimal" min="1" step="0.01" placeholder="500"
+              <input id="r-amount" name="amount" data-analytics-field="amount" type="number" inputmode="decimal" min="1" step="0.01" placeholder="500"
                 required>
             </div>
 
             <div class="field">
               <label for="r-date">Collection day</label>
-              <input id="r-date" name="date" type="date" required>
+              <input id="r-date" name="date" data-analytics-field="date" type="date" required>
             </div>
 
             <div class="field">
               <label for="r-name">Your name</label>
-              <input id="r-name" name="name" type="text" autocomplete="name" maxlength="60" required>
+              <input id="r-name" name="name" data-analytics-field="name" type="text" autocomplete="name" maxlength="60" required>
             </div>
 
             <div class="field">
               <label for="r-phone">Phone</label>
-              <input id="r-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="07700 900123"
+              <input id="r-phone" name="phone" data-analytics-field="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="07700 900123"
                 maxlength="20" required>
             </div>
 
             <div class="field">
               <label for="r-email">Email <span class="field__optional">optional</span></label>
-              <input id="r-email" name="email" type="email" autocomplete="email" maxlength="120">
+              <input id="r-email" name="email" data-analytics-field="email" type="email" autocomplete="email" maxlength="120">
             </div>
 
             <div class="field field--trap" aria-hidden="true">
               <label for="r-company">Company</label>
-              <input id="r-company" name="company" type="text" tabindex="-1" autocomplete="off">
+              <input id="r-company" name="company" data-analytics-ignore type="text" tabindex="-1" autocomplete="off">
             </div>
 
             <div class="reserve__meta">
@@ -442,7 +442,7 @@
 
             <p class="reserve__status" id="r-status" role="alert"></p>
 
-            <button class="btn btn--gold reserve__submit" type="submit">
+            <button class="btn btn--gold reserve__submit" type="submit" data-analytics-id="reservation-submit">
               <span class="reserve__submit-label">Send request</span>
               <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
             </button>
@@ -454,13 +454,13 @@
             <h3 class="reserve__done-title">Request sent</h3>
             <p>Your reference is <strong id="r-ref"></strong>.</p>
             <p id="r-next"></p>
-            <button class="btn btn--outline" type="button" id="r-again">Make another request</button>
+            <button class="btn btn--outline" type="button" id="r-again" data-analytics-id="reservation-another-request">Make another request</button>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="visit" id="find-us" aria-labelledby="visit-title">
+    <section data-analytics-section="find-us" class="visit" id="find-us" aria-labelledby="visit-title">
       <div class="visit__inner">
         <div class="visit__info">
           <span class="visit__rule" aria-hidden="true"></span>
@@ -484,20 +484,20 @@
               <svg class="visit__icon visit__icon--phone" aria-hidden="true">
                 <use href="#i-phone" />
               </svg>
-              <a class="visit__link" href="tel:+442089511500">020 8951 1500</a>
+              <a class="visit__link" href="tel:+442089511500" data-analytics-id="visit-call">020 8951 1500</a>
             </li>
             <li style="--i: 3">
               <svg class="visit__icon visit__icon--clock" aria-hidden="true">
                 <use href="#i-whatsapp" />
               </svg>
-              <a class="visit__link" href="https://wa.me/447933700410" target="_blank" rel="noopener">WhatsApp 07933
+              <a class="visit__link" href="https://wa.me/447933700410" target="_blank" rel="noopener" data-analytics-id="visit-whatsapp">WhatsApp 07933
                 700410</a>
             </li>
             <li style="--i: 4">
               <svg class="visit__icon visit__icon--clock" aria-hidden="true">
                 <use href="#i-mail" />
               </svg>
-              <a class="visit__link" href="mailto:quickcurrencyedgware@gmail.com">quickcurrencyedgware@gmail.com</a>
+              <a class="visit__link" href="mailto:quickcurrencyedgware@gmail.com" data-analytics-id="visit-email">quickcurrencyedgware@gmail.com</a>
             </li>
             <li style="--i: 5">
               <svg class="visit__icon visit__icon--train" aria-hidden="true">
@@ -509,7 +509,7 @@
 
           <a class="btn btn--dark btn--maps"
             href="https://www.google.com/maps/search/?api=1&amp;query=Quick+Stop%2C+140+Station+Rd%2C+Edgware+HA8+7AA"
-            target="_blank" rel="noopener">
+            target="_blank" rel="noopener" data-analytics-id="visit-directions">
             <svg class="btn__navigate" aria-hidden="true">
               <use href="#i-navigate" />
             </svg>
@@ -540,13 +540,13 @@
         <p class="footer__cta-text" data-reveal>Message us for today’s rate, or drop in. 0% commission on every
           exchange.</p>
         <div class="footer__cta-actions" data-reveal>
-          <a class="btn btn--gold" href="https://wa.me/447933700410" target="_blank" rel="noopener">
+          <a class="btn btn--gold" href="https://wa.me/447933700410" target="_blank" rel="noopener" data-analytics-id="help-whatsapp">
             <svg class="btn__wa" aria-hidden="true">
               <use href="#i-whatsapp" />
             </svg>
             WhatsApp us
           </a>
-          <a class="btn btn--outline" href="tel:+442089511500" data-analytics-label="footer_call_us_now">
+          <a class="btn btn--outline" href="tel:+442089511500" data-analytics-id="help-call">
             <svg class="btn__phone" aria-hidden="true">
               <use href="#i-phone" />
             </svg>
@@ -558,7 +558,7 @@
 
     <div class="footer__grid">
       <div class="footer__brand">
-        <a class="brand brand--footer" href="#top" aria-label="Quick Currency Exchange, back to top">
+        <a class="brand brand--footer" href="#top" aria-label="Quick Currency Exchange, back to top" data-analytics-id="footer-home">
           <svg class="brand__mark" aria-hidden="true">
             <use href="#i-mark" />
           </svg>
@@ -570,9 +570,9 @@
       <div class="footer__col footer__col--contact">
         <h3 class="footer__heading">Contact</h3>
         <ul>
-          <li><a href="tel:+442089511500">020 8951 1500</a></li>
-          <li><a href="https://wa.me/447933700410" target="_blank" rel="noopener">WhatsApp 07933 700410</a></li>
-          <li><a href="mailto:quickcurrencyedgware@gmail.com">quickcurrencyedgware@gmail.com</a></li>
+          <li><a href="tel:+442089511500" data-analytics-id="footer-call">020 8951 1500</a></li>
+          <li><a href="https://wa.me/447933700410" target="_blank" rel="noopener" data-analytics-id="footer-whatsapp">WhatsApp 07933 700410</a></li>
+          <li><a href="mailto:quickcurrencyedgware@gmail.com" data-analytics-id="footer-email">quickcurrencyedgware@gmail.com</a></li>
         </ul>
       </div>
 
@@ -582,16 +582,16 @@
         <p>Mon – Sat: 9am – 8pm<br>Sunday: 10am – 6pm</p>
         <a class="footer__directions"
           href="https://www.google.com/maps/dir/?api=1&amp;destination=140+Station+Rd%2C+Edgware+HA8+7AA"
-          target="_blank" rel="noopener">Get directions</a>
+          target="_blank" rel="noopener" data-analytics-id="footer-directions">Get directions</a>
       </div>
 
       <nav class="footer__col" aria-label="Footer">
         <h3 class="footer__heading">On this page</h3>
         <ul>
-          <li><a href="#rates">Today’s rates</a></li>
-          <li><a href="#services">Our services</a></li>
-          <li><a href="#reserve">Reserve currency</a></li>
-          <li><a href="#find-us">Find us</a></li>
+          <li><a href="#rates" data-analytics-id="footer-rates">Today’s rates</a></li>
+          <li><a href="#services" data-analytics-id="footer-services">Our services</a></li>
+          <li><a href="#reserve" data-analytics-id="footer-reserve">Reserve currency</a></li>
+          <li><a href="#find-us" data-analytics-id="footer-find-us">Find us</a></li>
         </ul>
       </nav>
     </div>
@@ -599,7 +599,16 @@
     <p class="footer__note">© 2026 Quick Currency Exchange. Cash and card accepted.</p>
   </footer>
 
-  <script src="js/main.js?v=7" defer></script>
+  <section class="tracking-note" aria-label="Privacy and website measurement" data-analytics-section="privacy">
+    <details><summary data-analytics-id="privacy-open">Privacy &amp; website measurement</summary>
+      <p>We use WebM8 to understand page visits, button clicks and reservation progress. When measurement is enabled, the authorised website team can view the reservation details you enter, including unfinished answers, for up to 24 hours. Passwords, bot-check tokens and hidden security fields are excluded. Drafts are not confirmed bookings.</p>
+      <p>Submitted requests are saved privately so the shop can contact you, even if email delivery is delayed. Browser privacy signals are respected. You can turn measurement and draft saving off here and still make a reservation.</p>
+    </details>
+    <button type="button" class="btn btn--outline" id="privacy-toggle" data-analytics-id="privacy-toggle" aria-pressed="false">Turn off measurement &amp; draft saving</button>
+    <p id="privacy-state" role="status"></p>
+  </section>
+  <script src="js/analytics.js?v=1" defer></script>
+  <script src="js/main.js?v=8" defer></script>
 </body>
 
 </html>

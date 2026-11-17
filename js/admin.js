@@ -131,6 +131,8 @@
 
   function renderRequests() {
     const list = state.reservations;
+    const summary = state.delivery;
+    $('delivery-summary').textContent = summary ? `${summary.status === 'healthy' ? 'No unresolved delivery issues' : summary.status === 'setup_required' ? 'Delivery monitoring setup required' : 'Requests need attention'}. ${summary.counts.delivered} delivered · ${summary.counts.awaitingDelivery} awaiting delivery · ${summary.counts.attention} need attention. Updated ${when(summary.checkedAt)}.` : 'Delivery status is unavailable.';
     $('requests-count').textContent = list.length >= 50 ? 'Latest 50'
       : list.length ? `${list.length} ${list.length === 1 ? 'request' : 'requests'}` : '';
     if (!list.length) {
@@ -147,6 +149,8 @@
           <div class="request__top"><span class="request__ref">${escape(r.ref)}</span><span>Received ${when(r.at)}</span></div>
           <p class="request__what">${r.side === 'buy' ? 'Buy' : 'Sell'} ${escape(r.currency)}: ${escape(pays)}${escape(gets)}</p>
           <p>Collect ${escape(collect)}</p>
+          ${r.delivery ? `<p class="request__delivery"><strong>Email: ${escape(({queued:'Queued',retrying:'Sending failed — retry scheduled',accepted:'Accepted by Resend — awaiting delivery',delivered:'Delivered',delayed:'Delivery delayed',failed:'Sending failed — review needed',bounced:'Bounced',complained:'Marked as spam',suppressed:'Suppressed',manual_review:'Retry window ended — review needed'})[r.delivery.status] || 'Unknown')}</strong><br>CRM: ${r.delivery.crmStatus === 'saved' ? 'Saved' : 'Save pending — local copy available'} · ${r.delivery.attempts} sending attempt(s)${r.delivery.deliveredAt ? ` · Delivered ${escape(when(r.delivery.deliveredAt))}` : ''}${r.delivery.handledAt ? ` · Handled manually ${escape(when(r.delivery.handledAt))}` : ''}</p>
+          <div class="request__actions">${['queued','retrying'].includes(r.delivery.status) || r.delivery.crmStatus !== 'saved' ? `<button class="button button--small" type="button" data-delivery-action="retry" data-request-id="${escape(r.id)}">Retry pending delivery</button>` : ''}${!r.delivery.handledAt && r.delivery.status !== 'delivered' ? `<button class="button button--small" type="button" data-delivery-action="handled" data-request-id="${escape(r.id)}">Mark customer contacted</button>` : ''}</div>` : '<p class="note">Email status unavailable — request predates delivery monitoring.</p>'}
           <p class="request__who">
             <span>${escape(r.name)}</span>
             <a href="tel:${escape(r.phone)}">${escape(r.phone)}</a>
@@ -306,21 +310,34 @@
     if (Object.keys(edits).length) event.preventDefault();
   });
 
-  /* Keep the request list fresh while the page is open, without disturbing typing. */
-  setInterval(async () => {
-    if (!state || document.hidden) return;
+  $('refresh-requests').addEventListener('click', async (event) => {
+    const button = event.currentTarget;
+    button.disabled = true;
     try {
       const next = await api('/api/admin/state');
-      const typing = rows.contains(document.activeElement);
-      state = next;
-      renderSetup();
-      renderNotes();
+      state.reservations = next.reservations; state.delivery = next.delivery;
       renderRequests();
-      if (!typing && !Object.keys(edits).length) renderRows();
-    } catch {
-      /* the next tick tries again */
-    }
-  }, 60000);
+    } catch (error) { $('delivery-action-status').textContent = error.message; }
+    finally { button.disabled = false; }
+  });
+  $('requests').addEventListener('click', async (event) => {
+    const button = event.target.closest('[data-delivery-action]');
+    if (!button || button.disabled) return;
+    button.disabled = true;
+    $('delivery-action-status').textContent = 'Updating delivery…';
+    try {
+      const result = await api('/api/admin/delivery', { id: button.dataset.requestId, action: button.dataset.deliveryAction });
+      const record = state.reservations.find(r => r.id === button.dataset.requestId);
+      if (record) record.delivery = result.delivery;
+      const next = await api('/api/admin/state');
+      state.reservations = next.reservations; state.delivery = next.delivery;
+      renderRequests();
+      $('delivery-action-status').textContent = button.dataset.deliveryAction === 'handled'
+        ? 'Recorded that the customer was contacted. Email delivery status is unchanged.'
+        : 'Delivery checked. See the current status on the request.';
+    } catch (error) { $('delivery-action-status').textContent = error.message; }
+    finally { if (button.isConnected) button.disabled = false; }
+  });
 
   api('/api/admin/state').then(showAdmin).catch(() => showLogin());
 })();
