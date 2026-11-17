@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&display=swap">
-  <link rel="stylesheet" href="css/admin.css?v=1">
+  <link rel="stylesheet" href="css/admin.css?v=2">
 </head>
 
 <body>
@@ -54,6 +54,7 @@
       </div>
       <p class="note" id="rates-updated"></p>
       <p class="note" id="rates-note"></p>
+      <p class="note note--save">Price edits are not saved automatically. Click <strong>Save prices</strong> to publish your changes.</p>
       <div class="banner" id="manual-banner" hidden>
         <p id="manual-text"></p>
         <button class="button button--small" type="button" id="reset-all">Undo all my prices</button>
@@ -70,7 +71,6 @@
         <h2 class="card__title" id="requests-title">Reservation requests</h2>
         <span class="count" id="requests-count"></span>
       </div>
-      <div class="delivery-summary" id="delivery-summary" role="status" aria-live="polite"></div>
       <button class="button button--small" type="button" id="refresh-requests">Refresh requests</button>
       <p class="note">Every request is saved here, even if its email notification is delayed. Call the customer using the number below to confirm their rate and collection time.</p>
       <p id="delivery-action-status" class="note" role="status" aria-live="polite"></p>
@@ -86,7 +86,7 @@
 
   <p class="toast" id="toast" role="status" aria-live="polite"></p>
 
-  <script src="js/admin.js?v=4" defer></script>
+  <script src="js/admin.js?v=5" defer></script>
 </body>
 
 </html>

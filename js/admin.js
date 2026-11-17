@@ -2,9 +2,9 @@
   'use strict';
 
   const CURRENCIES = [
-    ['EUR', 'Euro'], ['USD', 'US Dollar'], ['AED', 'UAE Dirham'], ['AUD', 'Australian Dollar'],
-    ['CAD', 'Canadian Dollar'], ['ILS', 'Israeli Shekel'], ['CHF', 'Swiss Franc'], ['SAR', 'Saudi Riyal'],
-    ['QAR', 'Qatari Riyal'],
+    ['EUR', 'Euro', 'eu'], ['USD', 'US Dollar', 'us'], ['AED', 'UAE Dirham', 'ae'], ['AUD', 'Australian Dollar', 'au'],
+    ['CAD', 'Canadian Dollar', 'ca'], ['ILS', 'Israeli Shekel', 'il'], ['CHF', 'Swiss Franc', 'ch'], ['SAR', 'Saudi Riyal', 'sa'],
+    ['QAR', 'Qatari Riyal', 'qa'],
   ];
   const FAR_FROM_NO1 = 0.1; // warn when a price is more than 10% away from No1's
 
@@ -102,7 +102,7 @@
 
   function renderRows() {
     const { rates, auto } = state.board;
-    rows.innerHTML = CURRENCIES.map(([code, name]) => {
+    rows.innerHTML = CURRENCIES.map(([code, name, flag]) => {
       const current = rates[code] ?? {};
       const no1 = auto[code];
       const edit = edits[code];
@@ -116,6 +116,7 @@
       return `
         <div class="row" role="listitem" data-code="${code}">
           <div class="row__name">
+            <img class="row__flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/${flag}.svg" width="28" height="21" alt="">
             <span class="row__code">${code}</span>
             <span class="row__full">${name}</span>
             <span class="chip chip--edited" data-chip="edited" hidden>Not saved</span>
@@ -133,8 +134,6 @@
 
   function renderRequests() {
     const list = state.reservations;
-    const summary = state.delivery;
-    $('delivery-summary').textContent = summary ? `${summary.shopStatus === 'healthy' ? 'No email notification issues' : summary.shopStatus === 'setup_required' ? 'Email notifications need support — contact WebM8' : 'Some email notifications need attention'}. ${summary.counts.delivered} delivered · ${summary.counts.awaitingDelivery} awaiting confirmation · ${summary.counts.emailAttention} need attention. Checked ${when(summary.checkedAt)}.` : 'Email status is temporarily unavailable. Your saved requests are listed below.';
     $('requests-count').textContent = list.length >= 50 ? 'Latest 50'
       : list.length ? `${list.length} ${list.length === 1 ? 'request' : 'requests'}` : '';
     if (!list.length) {
