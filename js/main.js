@@ -102,6 +102,7 @@
     stamp.textContent = `Updated ${day}, ${time}`;
     stamp.classList.add('is-live');
     updateEstimate();
+    picker.refresh();
 
     // Rates arrived after the board was already on screen: replay the roll.
     if (board.classList.contains('is-live')) {
@@ -143,6 +144,255 @@
   }
   form.addEventListener('input', updateEstimate);
 
+  /* ---------- Currency picker ----------
+     Replaces the currency select with a list showing flags and today's rate. The select stays in the
+     form, hidden, and holds the value. Phones get a sheet from the bottom; wider screens a dropdown. */
+  const picker = (() => {
+    const select = form.elements.currency;
+    const label = document.getElementById('r-currency-label');
+    const sheetMode = window.matchMedia('(max-width: 559px)');
+    const items = [...select.options].map((o) => ({ code: o.value, name: o.dataset.name, flag: o.dataset.flag }));
+
+    const icon = (id, cls) => `<svg class="${cls}" aria-hidden="true"><use href="#${id}" /></svg>`;
+    const flag = (item) =>
+      `<img class="flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/${item.flag}.svg" width="24" height="18" alt="">`;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'picker';
+    wrap.innerHTML = `<button type="button" class="picker__button" id="r-currency-button" role="combobox"
+      aria-haspopup="listbox" aria-expanded="false" aria-controls="r-currency-list"
+      aria-labelledby="r-currency-label r-currency-button"></button>`;
+    const button = wrap.firstElementChild;
+
+    const popup = document.createElement('div');
+    popup.className = 'picker__popup';
+    popup.innerHTML = `
+      <div class="picker__head">
+        <p class="picker__title">Choose a currency</p>
+        <button type="button" class="picker__close" aria-label="Close">${icon('i-close', '')}</button>
+      </div>
+      <div class="picker__cols" aria-hidden="true"><span>Currency</span><span class="picker__cols-rate"></span></div>
+      <ul class="picker__list" id="r-currency-list" role="listbox" aria-labelledby="r-currency-label">
+        ${items.map((item) => `<li class="picker__option" id="r-currency-${item.code}" role="option" aria-selected="false">${flag(item)}<span class="picker__code">${item.code}</span><span class="picker__name">${item.name}</span><span class="picker__rate"></span>${icon('i-check', 'picker__check')}</li>`).join('')}
+      </ul>`;
+    wrap.append(popup);
+
+    const backdrop = document.createElement('div');
+    backdrop.className = 'picker__backdrop';
+    document.body.append(backdrop);
+
+    select.hidden = true;
+    select.dataset.control = button.id;
+    label.removeAttribute('for');
+    label.addEventListener('click', () => button.focus());
+    select.after(wrap);
+
+    const list = popup.querySelector('.picker__list');
+    const options = [...list.children];
+    const colsRate = popup.querySelector('.picker__cols-rate');
+    let isOpen = false;
+    let active = 0;
+    let fromKey = false;
+    let typed = '';
+    let typedAt = 0;
+
+    const current = () => Math.max(0, items.findIndex((item) => item.code === select.value));
+
+    const render = () => {
+      const item = items[current()];
+      button.innerHTML = `${flag(item)}<span class="picker__code">${item.code}</span><span class="picker__name">${item.name}</span>${icon('i-chevron', 'picker__chevron')}`;
+      options.forEach((li, i) => li.setAttribute('aria-selected', String(i === current())));
+    };
+
+    /** Shows the rate that applies to the chosen side: our sell rate when buying, our buy rate when selling. */
+    const refresh = () => {
+      const side = form.elements.side.value;
+      popup.dataset.side = side;
+      colsRate.textContent = rates ? (side === 'buy' ? 'We sell' : 'We buy') : '';
+      options.forEach((li, i) => {
+        const rate = rates && rates[items[i].code];
+        li.querySelector('.picker__rate').textContent = rate ? rate[side === 'buy' ? 'sell' : 'buy'].toFixed(4) : '';
+      });
+    };
+
+    const setActive = (index) => {
+      active = Math.min(Math.max(index, 0), items.length - 1);
+      options.forEach((li, i) => li.classList.toggle('is-active', i === active));
+      button.setAttribute('aria-activedescendant', options[active].id);
+      const li = options[active];
+      if (li.offsetTop < list.scrollTop) list.scrollTop = li.offsetTop;
+      else if (li.offsetTop + li.offsetHeight > list.scrollTop + list.clientHeight) {
+        list.scrollTop = li.offsetTop + li.offsetHeight - list.clientHeight;
+      }
+    };
+
+    const place = () => {
+      const sheet = sheetMode.matches;
+      popup.classList.toggle('is-sheet', sheet);
+      popup.classList.remove('is-up');
+      if (sheet) {
+        if (popup.parentNode !== document.body) document.body.append(popup);
+        return;
+      }
+      if (popup.parentNode !== wrap) wrap.append(popup);
+      // Open upwards when the list wouldn't fit below the field but would above it.
+      const box = button.getBoundingClientRect();
+      const height = popup.offsetHeight;
+      if (box.bottom + height + 16 > window.innerHeight && box.top - height - 16 > 0) popup.classList.add('is-up');
+    };
+
+    const open = (index = current()) => {
+      if (isOpen) return;
+      isOpen = true;
+      place();
+      void popup.offsetWidth;
+      popup.classList.add('is-open');
+      wrap.classList.add('is-open');
+      button.setAttribute('aria-expanded', 'true');
+      if (popup.classList.contains('is-sheet')) {
+        backdrop.classList.add('is-open');
+        root.classList.add('is-locked');
+      }
+      setActive(index);
+    };
+
+    const close = () => {
+      if (!isOpen) return;
+      isOpen = false;
+      popup.classList.remove('is-open');
+      wrap.classList.remove('is-open');
+      backdrop.classList.remove('is-open');
+      root.classList.remove('is-locked');
+      button.setAttribute('aria-expanded', 'false');
+      button.removeAttribute('aria-activedescendant');
+    };
+
+    const choose = (index) => {
+      const changed = items[index].code !== select.value;
+      select.value = items[index].code;
+      render();
+      close();
+      if (changed) {
+        select.dispatchEvent(new Event('input', { bubbles: true }));
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    };
+
+    // Keyboard clicks are handled on keydown, so the click that follows Enter or Space is skipped.
+    button.addEventListener('click', () => {
+      if (fromKey) {
+        fromKey = false;
+        return;
+      }
+      if (isOpen) close();
+      else open();
+    });
+    button.addEventListener('keyup', () => setTimeout(() => { fromKey = false; }));
+
+    button.addEventListener('keydown', (event) => {
+      const { key } = event;
+      const last = items.length - 1;
+      const moves = { ArrowDown: active + 1, ArrowUp: active - 1, Home: 0, End: last, PageDown: active + 5, PageUp: active - 5 };
+
+      if (key === 'Enter' || key === ' ') {
+        event.preventDefault();
+        fromKey = true;
+        if (isOpen) choose(active);
+        else open();
+        return;
+      }
+      if (!isOpen) {
+        if (key === 'ArrowDown' || key === 'ArrowUp' || key === 'Home' || key === 'End') {
+          event.preventDefault();
+          open(key === 'Home' ? 0 : key === 'End' ? last : current());
+          return;
+        }
+      } else if (key === 'ArrowUp' && event.altKey) {
+        event.preventDefault();
+        choose(active);
+        return;
+      } else if (key in moves) {
+        event.preventDefault();
+        setActive(moves[key]);
+        return;
+      } else if (key === 'Escape') {
+        event.preventDefault();
+        close();
+        return;
+      } else if (key === 'Tab') {
+        choose(active);
+        return;
+      }
+
+      // Type to jump: "c" goes to CAD, "ch" to CHF, "swiss" to CHF.
+      if (key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        const now = Date.now();
+        typed = now - typedAt > 800 ? key.toLowerCase() : typed + key.toLowerCase();
+        typedAt = now;
+        const match = items.findIndex((item) =>
+          item.code.toLowerCase().startsWith(typed) || item.name.toLowerCase().startsWith(typed));
+        if (match < 0) return;
+        if (isOpen) setActive(match);
+        else open(match);
+      }
+    });
+
+    // Keep focus on the button while the list is used with a mouse.
+    popup.addEventListener('mousedown', (event) => event.preventDefault());
+    list.addEventListener('pointermove', (event) => {
+      const li = event.target.closest('[role="option"]');
+      if (li && event.pointerType === 'mouse') setActive(options.indexOf(li));
+    });
+    list.addEventListener('click', (event) => {
+      const li = event.target.closest('[role="option"]');
+      if (li) choose(options.indexOf(li));
+    });
+    popup.querySelector('.picker__close').addEventListener('click', close);
+    document.addEventListener('pointerdown', (event) => {
+      if (isOpen && !wrap.contains(event.target) && !popup.contains(event.target)) close();
+    });
+    sheetMode.addEventListener('change', close);
+
+    // Drag the sheet's top edge down to dismiss it.
+    const head = popup.querySelector('.picker__head');
+    let dragFrom = null;
+    head.addEventListener('pointerdown', (event) => {
+      if (!popup.classList.contains('is-sheet') || event.target.closest('button')) return;
+      dragFrom = event.clientY;
+      try {
+        head.setPointerCapture(event.pointerId);
+      } catch {
+        // The pointer is already gone; the drag still works while it stays over the header.
+      }
+      popup.classList.add('is-dragging');
+    });
+    head.addEventListener('pointermove', (event) => {
+      if (dragFrom !== null) popup.style.translate = `0 ${Math.max(0, event.clientY - dragFrom)}px`;
+    });
+    const endDrag = (event) => {
+      if (dragFrom === null) return;
+      const distance = event.clientY - dragFrom;
+      dragFrom = null;
+      popup.classList.remove('is-dragging');
+      popup.style.translate = '';
+      if (distance > 70) close();
+    };
+    head.addEventListener('pointerup', endDrag);
+    head.addEventListener('pointercancel', endDrag);
+
+    form.addEventListener('change', (event) => {
+      if (event.target.name === 'side') refresh();
+    });
+    form.addEventListener('reset', () => setTimeout(() => {
+      render();
+      refresh();
+    }));
+
+    render();
+    refresh();
+    return { refresh };
+  })();
+
   /* Field messages: one per field, linked with aria-describedby. */
   const fieldMessages = {
     amount: 'Enter an amount.',
@@ -155,11 +405,13 @@
   const setFieldError = (name, message) => {
     const input = form.elements[name];
     if (!input || !input.id) return;
+    // The currency select is hidden; its picker button carries the error instead.
+    const control = document.getElementById(input.dataset.control) || input;
     const field = input.closest('.field');
     let note = field.querySelector('.field__error');
     if (!message) {
-      input.removeAttribute('aria-invalid');
-      input.removeAttribute('aria-describedby');
+      control.removeAttribute('aria-invalid');
+      control.removeAttribute('aria-describedby');
       if (note) note.remove();
       return;
     }
@@ -170,8 +422,8 @@
       field.append(note);
     }
     note.textContent = message;
-    input.setAttribute('aria-invalid', 'true');
-    input.setAttribute('aria-describedby', note.id);
+    control.setAttribute('aria-invalid', 'true');
+    control.setAttribute('aria-describedby', note.id);
   };
 
   const clearErrors = () => {
@@ -180,7 +432,9 @@
   };
 
   form.addEventListener('input', (event) => {
-    if (event.target.getAttribute('aria-invalid')) setFieldError(event.target.name, '');
+    const { name, dataset } = event.target;
+    const control = document.getElementById(dataset.control) || event.target;
+    if (control.getAttribute('aria-invalid')) setFieldError(name, '');
   });
 
   /* Cloudflare Turnstile, loaded as the form comes near the screen. It stays invisible unless

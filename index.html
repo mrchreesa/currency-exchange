@@ -40,9 +40,10 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=16">
+  <link rel="stylesheet" href="css/styles.css?v=17">
 </head>
 
 <body>
@@ -55,6 +56,17 @@
     <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
       stroke-linejoin="round">
       <path d="M3.5 12h16M13.5 5.5 20 12l-6.5 6.5" />
+    </symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+      stroke-linejoin="round">
+      <path d="m6 9 6 6 6-6" />
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round">
+      <path d="m5 12.5 4.5 4.5L19 7.5" />
+    </symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <path d="M6 6l12 12M18 6 6 18" />
     </symbol>
     <symbol id="i-phone" viewBox="0 0 24 24" fill="currentColor">
       <path
@@ -220,7 +232,7 @@
             <tbody>
               <tr data-code="EUR" style="--row: 0">
                 <th scope="row">
-                  <span class="board__symbol" aria-hidden="true">€</span>
+                  <img class="flag board__flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/eu.svg" width="28" height="21" alt="" loading="lazy">
                   <span class="board__code">EUR</span>
                   <span class="board__name">Euro</span>
                 </th>
@@ -229,7 +241,7 @@
               </tr>
               <tr data-code="USD" style="--row: 1">
                 <th scope="row">
-                  <span class="board__symbol" aria-hidden="true">$</span>
+                  <img class="flag board__flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/us.svg" width="28" height="21" alt="" loading="lazy">
                   <span class="board__code">USD</span>
                   <span class="board__name">US Dollar</span>
                 </th>
@@ -238,7 +250,7 @@
               </tr>
               <tr data-code="AED" style="--row: 2">
                 <th scope="row">
-                  <span class="board__symbol" aria-hidden="true">Dh</span>
+                  <img class="flag board__flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/ae.svg" width="28" height="21" alt="" loading="lazy">
                   <span class="board__code">AED</span>
                   <span class="board__name">UAE Dirham</span>
                 </th>
@@ -247,7 +259,7 @@
               </tr>
               <tr data-code="AUD" style="--row: 3">
                 <th scope="row">
-                  <span class="board__symbol" aria-hidden="true">A$</span>
+                  <img class="flag board__flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/au.svg" width="28" height="21" alt="" loading="lazy">
                   <span class="board__code">AUD</span>
                   <span class="board__name">Australian Dollar</span>
                 </th>
@@ -256,7 +268,7 @@
               </tr>
               <tr data-code="CAD" style="--row: 4">
                 <th scope="row">
-                  <span class="board__symbol" aria-hidden="true">C$</span>
+                  <img class="flag board__flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/ca.svg" width="28" height="21" alt="" loading="lazy">
                   <span class="board__code">CAD</span>
                   <span class="board__name">Canadian Dollar</span>
                 </th>
@@ -265,7 +277,7 @@
               </tr>
               <tr data-code="ILS" style="--row: 5">
                 <th scope="row">
-                  <span class="board__symbol" aria-hidden="true">₪</span>
+                  <img class="flag board__flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/il.svg" width="28" height="21" alt="" loading="lazy">
                   <span class="board__code">ILS</span>
                   <span class="board__name">Israeli Shekel</span>
                 </th>
@@ -274,7 +286,7 @@
               </tr>
               <tr data-code="CHF" style="--row: 6">
                 <th scope="row">
-                  <span class="board__symbol" aria-hidden="true">Fr.</span>
+                  <img class="flag board__flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/ch.svg" width="28" height="21" alt="" loading="lazy">
                   <span class="board__code">CHF</span>
                   <span class="board__name">Swiss Franc</span>
                 </th>
@@ -283,7 +295,7 @@
               </tr>
               <tr data-code="SAR" style="--row: 7">
                 <th scope="row">
-                  <span class="board__symbol" aria-hidden="true">SR</span>
+                  <img class="flag board__flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/sa.svg" width="28" height="21" alt="" loading="lazy">
                   <span class="board__code">SAR</span>
                   <span class="board__name">Saudi Riyal</span>
                 </th>
@@ -292,7 +304,7 @@
               </tr>
               <tr data-code="QAR" style="--row: 8">
                 <th scope="row">
-                  <span class="board__symbol" aria-hidden="true">QR</span>
+                  <img class="flag board__flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/qa.svg" width="28" height="21" alt="" loading="lazy">
                   <span class="board__code">QAR</span>
                   <span class="board__name">Qatari Riyal</span>
                 </th>
@@ -369,18 +381,18 @@
               <label><input type="radio" name="side" value="sell"><span>Sell currency</span></label>
             </fieldset>
 
-            <div class="field">
-              <label for="r-currency">Currency</label>
+            <div class="field field--currency">
+              <label for="r-currency" id="r-currency-label">Currency</label>
               <select id="r-currency" name="currency" required>
-                  <option value="EUR">EUR · Euro</option>
-                  <option value="USD">USD · US Dollar</option>
-                  <option value="AED">AED · UAE Dirham</option>
-                  <option value="AUD">AUD · Australian Dollar</option>
-                  <option value="CAD">CAD · Canadian Dollar</option>
-                  <option value="ILS">ILS · Israeli Shekel</option>
-                  <option value="CHF">CHF · Swiss Franc</option>
-                  <option value="SAR">SAR · Saudi Riyal</option>
-                  <option value="QAR">QAR · Qatari Riyal</option>
+                  <option value="EUR" data-flag="eu" data-name="Euro">EUR · Euro</option>
+                  <option value="USD" data-flag="us" data-name="US Dollar">USD · US Dollar</option>
+                  <option value="AED" data-flag="ae" data-name="UAE Dirham">AED · UAE Dirham</option>
+                  <option value="AUD" data-flag="au" data-name="Australian Dollar">AUD · Australian Dollar</option>
+                  <option value="CAD" data-flag="ca" data-name="Canadian Dollar">CAD · Canadian Dollar</option>
+                  <option value="ILS" data-flag="il" data-name="Israeli Shekel">ILS · Israeli Shekel</option>
+                  <option value="CHF" data-flag="ch" data-name="Swiss Franc">CHF · Swiss Franc</option>
+                  <option value="SAR" data-flag="sa" data-name="Saudi Riyal">SAR · Saudi Riyal</option>
+                  <option value="QAR" data-flag="qa" data-name="Qatari Riyal">QAR · Qatari Riyal</option>
               </select>
             </div>
 
@@ -580,7 +592,7 @@
     <p class="footer__note">© 2026 Quick Currency Exchange. Cash and card accepted.</p>
   </footer>
 
-  <script src="js/main.js?v=6" defer></script>
+  <script src="js/main.js?v=7" defer></script>
 </body>
 
 </html>
