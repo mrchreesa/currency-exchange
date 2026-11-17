@@ -19,6 +19,8 @@ Refresh never discards unsaved rate edits. Requests are retained before sending.
 
 The rate-update timestamp belongs in the admin rates card and uses London time. It includes the latest feed or owner price change. Public rates retain the freshness check without exposing the update timestamp. Optional customer confirmation email configuration is not a setup warning; missing core storage, shop email or bot protection still requires attention.
 
+The shop client operates this admin panel; Kris at WebM8 operates the CRM. Client screens show rates, saved requests, shop email status and customer contact actions. CRM links, sync labels and developer setup instructions stay out of the client interface. Agency monitoring still flags CRM failures; the shop's notification summary reports email issues independently so an agency sync issue is not presented as a shop email failure.
+
 ## Measurement
 
 All public actions have stable analytics IDs. Actual answers travel through private draft capture, separate from anonymous events; credentials, anti-bot inputs and the admin page are excluded. Browser privacy signals and previously saved opt-outs are honoured. The owner requested no added privacy pop-ups, dialogs or footer measurement panel.

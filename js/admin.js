@@ -76,9 +76,9 @@
   function renderSetup() {
     const s = state.setup;
     const items = [];
-    if (!s.storage) items.push('Connect Upstash Redis in Vercel (Storage). Until then, your prices and the request list are lost whenever the site restarts.');
-    if (!s.email) items.push(`Add RESEND_API_KEY in Vercel. Until then, requests aren’t emailed to ${escape(s.notifyEmail)}.`);
-    if (!s.turnstile) items.push('Add TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY in Vercel. Until then, the website form is switched off and asks people to call.');
+    if (!s.storage) items.push('Saved prices and requests may be unavailable. Please contact WebM8 for help.');
+    if (!s.email) items.push('Email notifications are unavailable. Check requests below and contact WebM8 for help.');
+    if (!s.turnstile) items.push('Online reservations are temporarily unavailable. Customers are being asked to call the shop. Please contact WebM8 for help.');
     $('setup').hidden = !items.length;
     $('setup-list').innerHTML = items.map((item) => `<li>${item}</li>`).join('');
   }
@@ -134,7 +134,7 @@
   function renderRequests() {
     const list = state.reservations;
     const summary = state.delivery;
-    $('delivery-summary').textContent = summary ? `${summary.status === 'healthy' ? 'No unresolved delivery issues' : summary.status === 'setup_required' ? 'Delivery monitoring setup required' : 'Requests need attention'}. ${summary.counts.delivered} delivered · ${summary.counts.awaitingDelivery} awaiting delivery · ${summary.counts.attention} need attention. Updated ${when(summary.checkedAt)}.` : 'Delivery status is unavailable.';
+    $('delivery-summary').textContent = summary ? `${summary.shopStatus === 'healthy' ? 'No email notification issues' : summary.shopStatus === 'setup_required' ? 'Email notifications need support — contact WebM8' : 'Some email notifications need attention'}. ${summary.counts.delivered} delivered · ${summary.counts.awaitingDelivery} awaiting confirmation · ${summary.counts.emailAttention} need attention. Checked ${when(summary.checkedAt)}.` : 'Email status is temporarily unavailable. Your saved requests are listed below.';
     $('requests-count').textContent = list.length >= 50 ? 'Latest 50'
       : list.length ? `${list.length} ${list.length === 1 ? 'request' : 'requests'}` : '';
     if (!list.length) {
@@ -151,8 +151,8 @@
           <div class="request__top"><span class="request__ref">${escape(r.ref)}</span><span>Received ${when(r.at)}</span></div>
           <p class="request__what">${r.side === 'buy' ? 'Buy' : 'Sell'} ${escape(r.currency)}: ${escape(pays)}${escape(gets)}</p>
           <p>Collect ${escape(collect)}</p>
-          ${r.delivery ? `<p class="request__delivery"><strong>Email: ${escape(({queued:'Queued',retrying:'Sending failed — retry scheduled',accepted:'Accepted by Resend — awaiting delivery',delivered:'Delivered',delayed:'Delivery delayed',failed:'Sending failed — review needed',bounced:'Bounced',complained:'Marked as spam',suppressed:'Suppressed',manual_review:'Retry window ended — review needed'})[r.delivery.status] || 'Unknown')}</strong><br>CRM: ${r.delivery.crmStatus === 'saved' ? 'Saved' : 'Save pending — local copy available'} · ${r.delivery.attempts} sending attempt(s)${r.delivery.deliveredAt ? ` · Delivered ${escape(when(r.delivery.deliveredAt))}` : ''}${r.delivery.handledAt ? ` · Handled manually ${escape(when(r.delivery.handledAt))}` : ''}</p>
-          <div class="request__actions">${['queued','retrying'].includes(r.delivery.status) || r.delivery.crmStatus !== 'saved' ? `<button class="button button--small" type="button" data-delivery-action="retry" data-request-id="${escape(r.id)}">Retry pending delivery</button>` : ''}${!r.delivery.handledAt && r.delivery.status !== 'delivered' ? `<button class="button button--small" type="button" data-delivery-action="handled" data-request-id="${escape(r.id)}">Mark customer contacted</button>` : ''}</div>` : '<p class="note">Email status unavailable — request predates delivery monitoring.</p>'}
+          ${r.delivery ? `<p class="request__delivery"><strong>Shop email: ${escape(({queued:'Waiting to send',retrying:'Not sent yet — retrying automatically',accepted:'Sent — awaiting delivery confirmation',delivered:'Delivered to the shop’s email provider',delayed:'Delivery delayed',failed:'Could not be sent — contact WebM8',bounced:'Rejected by the shop’s email provider',complained:'Reported as spam',suppressed:'Notification blocked — contact WebM8',manual_review:'Could not confirm sending — contact WebM8'})[r.delivery.status] || 'Status unavailable')}</strong>${r.delivery.deliveredAt ? ` · ${escape(when(r.delivery.deliveredAt))}` : ''}${r.delivery.handledAt ? `<br>Customer contacted ${escape(when(r.delivery.handledAt))}` : ''}</p>
+          <div class="request__actions">${['queued','retrying'].includes(r.delivery.status) ? `<button class="button button--small" type="button" data-delivery-action="retry" data-request-id="${escape(r.id)}">Retry email notification</button>` : ''}${!r.delivery.handledAt && r.delivery.status !== 'delivered' ? `<button class="button button--small" type="button" data-delivery-action="handled" data-request-id="${escape(r.id)}">Mark customer contacted</button>` : ''}</div>` : '<p class="note">Email tracking is not available for this older request.</p>'}
           <p class="request__who">
             <span>${escape(r.name)}</span>
             <a href="tel:${escape(r.phone)}">${escape(r.phone)}</a>

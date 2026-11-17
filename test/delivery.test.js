@@ -12,7 +12,7 @@ const pair = generateKeyPairSync('ed25519');
 const connection = { endpoint: 'https://webm8-platform.vercel.app/api/ingest/v1/leads', keyId: 'w8_test', privateKeyPem: pair.privateKey.export({ format:'pem',type:'pkcs8' }) };
 process.env.WEBM8_LEAD_SETUP_FILE = `const config = ${JSON.stringify(connection, null, 2)};`;
 const store = await import('../lib/store.js');
-const { createDelivery, processDelivery, getDelivery, recordDeliveryEvent, attentionReason, deliverySummary } = await import('../lib/delivery.js');
+const { createDelivery, processDelivery, getDelivery, recordDeliveryEvent, attentionReason, emailAttentionReason, deliverySummary } = await import('../lib/delivery.js');
 const { POST: webhook } = await import('../api/webhooks/resend.js');
 const { GET: health } = await import('../api/delivery-health.js');
 const originalFetch = globalThis.fetch;
@@ -78,6 +78,21 @@ test('CRM outage preserves the local request and independent shop email; recover
   const record=await fixture(); crmOffline=true;
   let item=await processDelivery(record.id); assert.equal(item.crmStatus,'error');assert.equal(item.status,'accepted');
   crmOffline=false;item=await processDelivery(record.id);assert.equal(item.crmStatus,'saved');assert.equal(emails.length,1);
+});
+test('agency sync failures stay monitored without appearing as shop email failures', async () => {
+  const record = await fixture();
+  await store.update(`delivery:${record.id}`, item => ({ ...item, crmStatus: 'error', status: 'delivered' }));
+  const item = await getDelivery(record.id);
+  assert.equal(attentionReason(item), 'crm_pending');
+  assert.equal(emailAttentionReason(item), null);
+  let summary = await deliverySummary();
+  assert.equal(summary.counts.attention, 1);
+  assert.equal(summary.counts.emailAttention, 0);
+  assert.ok(summary.reasons.includes('crm_pending'));
+  await store.update(`delivery:${record.id}`, item => ({ ...item, status: 'failed' }));
+  summary = await deliverySummary();
+  assert.equal(summary.counts.emailAttention, 1);
+  assert.equal(emailAttentionReason(await getDelivery(record.id)), 'email_failed');
 });
 test('signed delivery webhook is durable, idempotent and cannot be downgraded by a late sent event', async () => {
   const record=await fixture();await processDelivery(record.id);
