@@ -23,6 +23,8 @@ The shop client operates this admin panel; Kris at WebM8 operates the CRM. Clien
 
 Currency rows reuse the public site's pinned 4:3 flag assets and retain visible currency codes and names. A persistent note explains that typed price edits require Save prices; the existing unsaved marker and Discard action remain the editing feedback. These changes do not enable autosave.
 
+The save bar stays visible while signed in. With no unsaved changes it says No unsaved changes and disables Save prices and Discard. Valid edits enable saving; invalid edits keep Save prices disabled. Both actions are disabled while a save is in progress. Discarding, restoring the original values or completing a save returns the bar to its visible disabled state.
+
 ## Measurement
 
 All public actions have stable analytics IDs. Actual answers travel through private draft capture, separate from anonymous events; credentials, anti-bot inputs and the admin page are excluded. Browser privacy signals and previously saved opt-outs are honoured. The owner requested no added privacy pop-ups, dialogs or footer measurement panel.

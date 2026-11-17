@@ -123,7 +123,7 @@ a { color: inherit; }
 }
 .button:disabled { opacity: 0.6; cursor: progress; }
 .button--gold { background: var(--gold); color: var(--ink); }
-.button--gold:hover { background: #f3d57c; }
+.button--gold:hover:not(:disabled) { background: #f3d57c; }
 .button--ghost { border-color: rgba(255, 255, 255, 0.3); background: transparent; color: #fff; }
 .button--small { min-height: 40px; padding: 0 14px; font-size: 15px; background: var(--ink); color: #fff; }
 
@@ -365,6 +365,8 @@ a { color: inherit; }
   box-shadow: 0 -10px 30px -12px rgba(0, 0, 0, 0.5);
 }
 .savebar__text { flex: 1; font-size: 15.5px; }
+.savebar .button:disabled { cursor: not-allowed; }
+.savebar[aria-busy="true"] .button:disabled { cursor: progress; }
 
 @media (max-width: 420px) {
   .savebar { flex-wrap: wrap; }

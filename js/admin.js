@@ -12,6 +12,7 @@
   const rows = $('rows');
   let state = null;
   let edits = {}; // code -> { sell, buy } as typed
+  let saving = false;
 
   /* ---------- Helpers ---------- */
 
@@ -198,13 +199,14 @@
 
   function updateSavebar() {
     const codes = Object.keys(edits);
-    $('savebar').hidden = !codes.length;
-    if (!codes.length) return;
+    $('savebar').hidden = !state;
+    $('savebar').setAttribute('aria-busy', String(saving));
     const invalid = codes.some((code) => !checkRow(code).ok);
-    $('savebar-text').textContent = invalid
+    $('savebar-text').textContent = !codes.length ? 'No unsaved changes.' : invalid
       ? 'Fix the highlighted rates to save.'
       : `${codes.length} ${codes.length === 1 ? 'currency' : 'currencies'} changed: ${codes.join(', ')}`;
-    $('save').disabled = invalid;
+    $('save').disabled = saving || !codes.length || invalid;
+    $('discard').disabled = saving || !codes.length;
   }
 
   rows.addEventListener('input', (event) => {
@@ -238,11 +240,13 @@
 
   $('save').addEventListener('click', async () => {
     const codes = Object.keys(edits);
+    if (saving || !codes.length) return;
     if (codes.some((code) => checkRow(code).far)
       && !window.confirm('Some prices are more than 10% away from No1’s. Save them anyway?')) return;
 
     const payload = Object.fromEntries(codes.map((code) => [code, { sell: Number(edits[code].sell), buy: Number(edits[code].buy) }]));
-    $('save').disabled = true;
+    saving = true;
+    updateSavebar();
     try {
       const next = await api('/api/admin/rates', { action: 'save', rates: payload });
       edits = {};
@@ -251,7 +255,8 @@
     } catch (error) {
       toast(error.message);
     } finally {
-      $('save').disabled = false;
+      saving = false;
+      updateSavebar();
     }
   });
 
