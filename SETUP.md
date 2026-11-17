@@ -46,6 +46,7 @@ Cloudflare dashboard → **Turnstile** → Add widget.
 | --- | --- |
 | `TURNSTILE_SITE_KEY` | Site key |
 | `TURNSTILE_SECRET_KEY` | Secret key |
+| `TURNSTILE_HOSTNAMES` | Optional comma-separated allowed hostnames. Defaults to `currency-exchange-quick-stop.vercel.app`. Update this and the Cloudflare widget together when adding a custom domain. |
 
 ## How the rates work
 
@@ -57,7 +58,22 @@ Cloudflare dashboard → **Turnstile** → Add widget.
 
 ## Spam protection on the form
 
-Hidden honeypot field, a minimum time on the page, strict field checks, Cloudflare Turnstile, and limits of
-3 requests per connection per 10 minutes, 8 per day, 3 per phone number per day and 40 site-wide per day.
-The same request twice in a day is acknowledged but not sent again. Amounts are capped at £10,000; bigger ones are
-asked to call. Limits live at the top of `lib/reservations.js`.
+The server enforces every check, including for direct calls to `/api/reserve`:
+
+- Hidden honeypot and at least 3 seconds on the form.
+- 3 attempts per IP address per 10 minutes and 8 per day, including malformed fields and failed bot checks.
+- Turnstile Siteverify must return success for the `reserve` action and an allowed hostname.
+- After the bot check: 3 requests per normalized phone number per day and 40 across the site per day.
+- The same normalized phone, currency, buy/sell choice and collection date shares one reference and sends
+  no further email for 24 hours, even if the amount changes. Repeated submissions still count toward limits.
+- Names must contain letters; phone numbers must have a plausible format; amounts must be positive decimals
+  with at most two decimal places and a maximum £10,000 equivalent. Collection dates must be real calendar
+  dates between today and 30 days ahead. Larger requests are asked to call.
+
+Rate limits use fixed windows: ten-minute clock intervals and days starting at midnight UTC. Duplicate suppression
+lasts a full 24 hours from the original request. Redis keeps counters shared across Vercel instances; requests
+are refused if Redis is missing in Vercel or fails. Local development can use memory.
+
+Limits live at the top of `lib/reservations.js`. Run `npm test` to exercise the API with fake Redis, Cloudflare
+and email services; these tests never send real requests or emails. These checks reduce spam but do not prove
+that a phone number belongs to the person submitting it.

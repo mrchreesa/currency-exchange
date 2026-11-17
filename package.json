@@ -2,5 +2,6 @@
   "name": "quick-currency-exchange",
   "private": true,
   "type": "module",
+  "scripts": { "test": "node --test test/*.test.js" },
   "description": "Quick Currency Exchange, Edgware. Static site plus Vercel Functions in /api."
 }
