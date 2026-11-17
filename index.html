@@ -43,7 +43,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=17">
+  <link rel="stylesheet" href="css/styles.css?v=18">
 </head>
 
 <body>
@@ -156,10 +156,17 @@
           <li><a href="#services">Our services</a></li>
           <li><a href="#find-us">Find us</a></li>
         </ul>
-        <a class="btn btn--dark site-nav__cta" href="#reserve">
-          Reserve currency
-          <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
-        </a>
+        <div class="site-nav__actions">
+          <a class="btn btn--dark site-nav__cta" href="#reserve">
+            Reserve currency
+            <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
+          </a>
+          <a class="btn btn--gold site-nav__cta site-nav__call" href="tel:+442089511500"
+            data-analytics-label="header_call_us_now">
+            <svg class="btn__phone" aria-hidden="true"><use href="#i-phone" /></svg>
+            Call Us Now
+          </a>
+        </div>
       </nav>
     </div>
     <span class="scroll-progress" aria-hidden="true"></span>
@@ -186,11 +193,11 @@
               Reserve currency
               <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
             </a>
-            <a class="btn btn--outline" href="tel:+442089511500">
+            <a class="btn btn--outline" href="tel:+442089511500" data-analytics-label="hero_call_us_now">
               <svg class="btn__phone" aria-hidden="true">
                 <use href="#i-phone" />
               </svg>
-              Call us
+              Call Us Now
             </a>
           </div>
         </div>
@@ -539,11 +546,11 @@
             </svg>
             WhatsApp us
           </a>
-          <a class="btn btn--outline" href="tel:+442089511500">
+          <a class="btn btn--outline" href="tel:+442089511500" data-analytics-label="footer_call_us_now">
             <svg class="btn__phone" aria-hidden="true">
               <use href="#i-phone" />
             </svg>
-            020 8951 1500
+            Call Us Now
           </a>
         </div>
       </div>

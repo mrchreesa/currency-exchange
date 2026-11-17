@@ -204,12 +204,12 @@ address { font-style: normal; }
 .site-nav {
   display: flex;
   align-items: center;
-  gap: calc(38 * var(--k));
+  gap: calc(22 * var(--k));
 }
 
 .site-nav__links {
   display: flex;
-  gap: calc(28 * var(--k));
+  gap: calc(18 * var(--k));
 }
 
 .site-nav__links a {
@@ -234,11 +234,19 @@ address { font-style: normal; }
 }
 .site-nav__links a:hover::after { transform: scaleX(1); }
 
+.site-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: calc(8 * var(--k));
+}
+
 .site-nav__cta {
-  height: calc(40 * var(--k));
-  padding-inline: calc(29 * var(--k)) calc(28 * var(--k));
+  height: max(44px, calc(40 * var(--k)));
+  padding-inline: calc(16 * var(--k));
   font-size: calc(14.5 * var(--k));
 }
+
+.site-nav__call .btn__phone { color: currentColor; }
 
 .menu-toggle { display: none; }
 
@@ -1702,9 +1710,14 @@ html.is-locked { overflow: hidden; }
     border-bottom: 1px solid rgba(15, 14, 10, 0.08);
   }
   .site-nav__links a::after { display: none; }
+  .site-nav__actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 20px;
+  }
   .site-nav__cta {
     height: 50px;
-    margin-top: 20px;
     font-size: 16px;
   }
 
