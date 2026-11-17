@@ -69,7 +69,6 @@
      /api/rates mirrors No1's rates from 9:00am each day, with any owner prices on top.
      If it fails, or its rates are more than MAX_AGE_DAYS old, the board keeps its "Ask us" cells. */
   const MAX_AGE_DAYS = 3;
-  const stamp = document.getElementById('rates-stamp');
   let rates = null;
 
   const digits = (value) => {
@@ -97,10 +96,6 @@
       });
     });
 
-    const day = updated.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
-    const time = updated.toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true }).replace(' ', '');
-    stamp.textContent = `Updated ${day}, ${time}`;
-    stamp.classList.add('is-live');
     updateEstimate();
     picker.refresh();
 

@@ -17,6 +17,8 @@ The public reservation page and owner request list retain the gold, ink and crea
 
 Refresh never discards unsaved rate edits. Requests are retained before sending. Accepted is distinct from delivered; manual contact does not change provider delivery status. Pending and error messages remain visible and use live status regions. No timer refresh is introduced. Rates editing and its existing confirmation behaviour are outside this change.
 
+The rate-update timestamp belongs in the admin rates card and uses London time. It includes the latest feed or owner price change. Public rates retain the freshness check without exposing the update timestamp. Optional customer confirmation email configuration is not a setup warning; missing core storage, shop email or bot protection still requires attention.
+
 ## Measurement
 
 All public actions have stable analytics IDs. Actual answers travel through private draft capture, separate from anonymous events; credentials, anti-bot inputs and the admin page are excluded. Browser privacy signals and previously saved opt-outs are honoured. The owner requested no added privacy pop-ups, dialogs or footer measurement panel.

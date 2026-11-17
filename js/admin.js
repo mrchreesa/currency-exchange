@@ -79,13 +79,15 @@
     if (!s.storage) items.push('Connect Upstash Redis in Vercel (Storage). Until then, your prices and the request list are lost whenever the site restarts.');
     if (!s.email) items.push(`Add RESEND_API_KEY in Vercel. Until then, requests aren’t emailed to ${escape(s.notifyEmail)}.`);
     if (!s.turnstile) items.push('Add TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY in Vercel. Until then, the website form is switched off and asks people to call.');
-    if (!s.customerEmail) items.push('Customers don’t get a confirmation email yet. That needs a domain verified in Resend, set as RESEND_FROM.');
     $('setup').hidden = !items.length;
     $('setup-list').innerHTML = items.map((item) => `<li>${item}</li>`).join('');
   }
 
   function renderNotes() {
     const board = state.board;
+    $('rates-updated').textContent = board.updated
+      ? `Rates updated ${when(board.updated)}.`
+      : 'Rates have not loaded yet.';
     $('rates-note').textContent = board.autoUpdatedAt
       ? `Showing No1’s rates from ${when(board.autoUpdatedAt)}. Next update at ${when(board.nextUpdate)}.`
       : 'No1’s rates haven’t loaded yet. Try “Pull No1’s rates now”.';
