@@ -83,3 +83,25 @@ are refused if Redis is missing in Vercel or fails. Local development can use me
 Limits live at the top of `lib/reservations.js`. Run `npm test` to exercise the API with fake Redis, Cloudflare
 and email services; these tests never send real requests or emails. These checks reduce spam but do not prove
 that a phone number belongs to the person submitting it.
+
+## Google search
+
+The site is ready for Google: page title and description, an icon Google can show beside results
+(`/favicon.ico`, `/favicon-96x96.png`), business details as structured data (address, hours, services, FAQ),
+`/robots.txt` and `/sitemap.xml`. The old `currency-exchange-quick-stop.vercel.app` pages redirect to
+quickcurrencyexchange.uk; `/api/` still answers on both addresses.
+
+These need the owner's Google accounts:
+
+1. **Search Console** (search.google.com/search-console): add a Domain property for `quickcurrencyexchange.uk`
+   (verify with the DNS record it gives), submit `https://quickcurrencyexchange.uk/sitemap.xml`, then use
+   URL Inspection on the home page and press Request indexing. The icon and new title appear after Google
+   re-crawls, usually within days to a few weeks.
+2. **Google Business Profile**: the Maps listing is still called "Quick Stop". Set the website to
+   `https://quickcurrencyexchange.uk`, primary category "Currency exchange service", add "Money transfer service",
+   and check the hours match the site (Mon to Sat 9am to 8pm, Sun 10am to 6pm). Only rename the listing to
+   Quick Currency Exchange if the shop sign says so; Google checks names against signage.
+3. **Bing Webmaster Tools**: import the site from Search Console.
+
+If the opening hours, phone or address change, update them in the page text and in the structured data in the
+`<head>` of `index.html`, and change `<lastmod>` in `sitemap.xml`.

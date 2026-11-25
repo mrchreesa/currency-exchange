@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Allow: /api/rates
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://quickcurrencyexchange.uk/sitemap.xml

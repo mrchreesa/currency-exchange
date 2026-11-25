@@ -9,6 +9,7 @@ The public reservation page and owner request list retain the gold, ink and crea
 | Navigation | index.html and js/main.js | Public page anchors | Desktop links and mobile menu | Live click report and mobile check |
 | Select/Listbox | js/main.js currency picker | CURRENCIES and native select value | Authored picker, native no-JS fallback | Live currency selection and saved draft |
 | Date | Native date input | Reservation validation in lib/reservations.js | Native platform popup | Draft capture and date validation tests |
+| Disclosure | index.html FAQ | Native details/summary; answers mirror the FAQPage structured data | Open and closed, animated height where supported | Keyboard toggle and structured data check |
 | Forms | js/main.js | Server reservation validation | Inline errors, pending and success states | Reservation tests and live signed CRM submission |
 | Delivery status | js/admin.js | lib/delivery.js and verified webhook | Unknown, queued, retrying, accepted, delivered, failed and manually handled | Delivery tests and live webhook |
 | Recovery actions | js/admin.js | api/admin/delivery.js | Explicit refresh, safe retry, customer contacted | Authenticated admin review |

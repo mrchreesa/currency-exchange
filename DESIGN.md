@@ -39,7 +39,7 @@ Source Serif 4 carries the counter's editorial character; Figtree supports contr
 
 ## Layout
 
-Public sections retain their current layout and mobile currency picker. Admin uses stacked cards, document scrolling and a bounded latest-50 request list. Delivery status lives beside each saved request. Refresh is explicit and must preserve unsaved rate edits.
+Public sections retain their current layout and mobile currency picker. The questions section follows the rates layout (intro column, then a ruled list of native disclosures); its answers must match the FAQPage structured data in the page head. Admin uses stacked cards, document scrolling and a bounded latest-50 request list. Delivery status lives beside each saved request. Refresh is explicit and must preserve unsaved rate edits.
 
 ## Elevation & Depth
 
